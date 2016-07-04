@@ -3,14 +3,16 @@
  */
 package fr.eni.utils;
 
+import java.lang.reflect.Constructor;
 import java.lang.reflect.Method;
+import java.lang.reflect.Type;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 
-
+import org.apache.commons.lang3.StringUtils;
 
 import fr.eni.dal.DBAcces;
 
@@ -23,53 +25,64 @@ import fr.eni.dal.DBAcces;
  */
 public class DynamicEntities<T> {
 
-	private Class entity;
+	private Class<?> entity;
 	
-	public DynamicEntities(Class entity){
+	public DynamicEntities(Class<?> entity){
 		this.entity = entity;
 	}
 	
 	private List<String> getFields(){
 		List<String> returnData  = new ArrayList<String>();
-		Method[] methods = this.entity.getMethods();
+		List<Method> methods = setMethods();
 		for (java.lang.reflect.Method method : methods) {
-			if(method.getName().startsWith("set")){
-				returnData.add(method.getName().replace("set", "").toLowerCase());
-			}
+			returnData.add(method.getName().replace("set", "").toLowerCase());
 		}
 		return returnData;
 	}
 	
-	private String generateQuery(){
-		List<String> fields = this.getFields();
-		StringBuilder sb = new StringBuilder();
-		sb.append("SELECT ");
-		for (String field : fields) {
-			
+	private List<Method> setMethods(){
+		List<Method> returnData  = new ArrayList<Method>();
+		Method[] methods = this.entity.getMethods();
+		for (java.lang.reflect.Method method : methods) {
+			if(method.getName().startsWith("set")){
+				returnData.add(method);
+			}
 		}
-		return null;
+		return returnData;
 	}
-	
+	/*
+	public Object getValue(ResultSet rs, Type type){
+		if(int.class.equals(type.getClass())){
+			return rs.get
+		}
+	}
+	*/
 	public List<T> selectAll() throws Exception{
 		Statement cmd = null;
 		List<T> returnData = new ArrayList<T>();
-		//this.entity.
+		List<Method> methods = this.setMethods();
+		List<String> fields = this.getFields();
+		StringBuilder query = new StringBuilder();
+		query.append("SELECT ");
+		query.append(StringUtils.join(fields, ", "));
+		query.append(" FROM ").append(this.entity.getSimpleName());
+		String test = query.toString();
 		try {
 			cmd = DBAcces.getConnection().createStatement();
-			/*
-			ResultSet rs = cmd.executeQuery(RQ_SELECT);
+			ResultSet rs = cmd.executeQuery(query.toString());
 			while (rs.next()) {
-				int formationId = rs.getInt("id");
-				String animateurNom = rs.getString("nom");
-				String animateurPrenom = rs.getString("prenom");
-				String animateurEmail = rs.getString("email");
-				String animateurMotDePasse = rs.getString("motdepasse");
-				animateurs.add(new Animateur(formationId, animateurNom, animateurPrenom, animateurEmail, animateurMotDePasse));
-			}*/
+				Constructor<?> constructor = this.entity.getConstructor(null);
+				T obj = (T) constructor.newInstance(null);
+				int i = 0;
+				for (Method method : methods) {
+					method.invoke(obj, rs.getObject(fields.toArray()[i].toString()));
+					i++;
+				}
+				returnData.add(obj);
+			}
 			return returnData;
 		} catch (SQLException e) {
-			e.printStackTrace();
-			throw new Exception("Impossible de récupérer les animateurs.");
+			throw new Exception(String.format("Impossible d'effectuer une requête SELECT ALL sur l'entitée %1s. Erreur : %2s", this.entity.getSimpleName(), e.getMessage()));
 		} finally {
 			cmd.getConnection().close();
 			cmd = null;

@@ -30,7 +30,7 @@ public class DBAcces {
 		}
 
 		// Chercher le pool de connexions dans l'annuaire
-		String jndiSourceName = "java:comp/env/jdbc/tp1";
+		String jndiSourceName = "java:comp/env/jdbc/qcm";
 		DataSource ds = null;
 		try{
 			ds = (DataSource)jndi.lookup(jndiSourceName);
