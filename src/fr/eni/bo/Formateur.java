@@ -3,6 +3,8 @@
  */
 package fr.eni.bo;
 
+import fr.eni.utils.DE;
+
 /**
  * @author Administrateur
  * @date 4 juil. 2016
@@ -15,6 +17,7 @@ public class Formateur extends Personnel{
 	public Formateur() {
 		super();
 	}
-	
-
+	public Formateur(int id, String nom, String prenom,String email,String motdepasse) {
+		super(id,nom,prenom,email,motdepasse);
+	}
 }

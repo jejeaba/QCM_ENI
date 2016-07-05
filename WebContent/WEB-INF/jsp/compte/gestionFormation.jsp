@@ -20,7 +20,7 @@
 					<thead>
 						<tr>
 							<th>Nom de la formation</th>
-							<th>Formateur</th>
+							<th>Formateurs</th>
 							<th>Actions</th>
 						</tr>
 					</thead>
@@ -29,7 +29,7 @@
 						<c:forEach items="${listeFormations}" var="formation">
 							<tr>
 								<td><a href="#">${formation.getNom()}</a></td>
-								<td>${formation.getId()}</td>
+								<td>${formation.responsable.getNom()} ${formation.responsable.getPrenom()}</td>
 								<td>
 									<div class="tools">
 										<a onclick="editFormation(event, this);" data-id-formation="${formation.getId()}" ><i class="fa fa-edit"></i> 
@@ -81,8 +81,9 @@ function addFormation(e, dom){
 	        message: view,
 	        nl2br: false
 	    });
+		dialog.realize();
 		dialog.getModalFooter().hide();
-		dialog.show();
+		dialog.open();
 	});
 	 
 }
@@ -106,6 +107,7 @@ function deleteFormation(e, dom){
 	});
 	 
 }
+
 	$(function() {
 		$("#gestionFormation").DataTable();
 		//     $('#example2').DataTable({
@@ -116,6 +118,10 @@ function deleteFormation(e, dom){
 		//       "info": true,
 		//       "autoWidth": false
 		//     });
+// 		$(".js-example-basic-single").select2({
+// 			  placeholder: "Responsable de formation",
+// 			allowClear: true
+// 			});
 		
 	});
 </script>

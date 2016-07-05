@@ -3,29 +3,38 @@
  */
 package fr.eni.bo;
 
+import fr.eni.utils.DE;
+
 /**
  * @author Administrateur
  * @date 4 juil. 2016
  * @version QCM - V1.0
  */
-public abstract class Utilisateur {
+public class Utilisateur {
+	@DE(isPrimary=true)
 	private int id;
 	private String nom;
 	private String prenom;
+	private String email;
+	private String motdepasse;
 	/**
 	 * Constructeur.
 	 */
-	public Utilisateur() {}
+	public Utilisateur() {
+		super();
+	}
 	/**
 	 * Constructeur.
 	 * @param id
 	 * @param nom
 	 * @param prenom
 	 */
-	public Utilisateur(int id, String nom, String prenom) {
+	public Utilisateur(int id, String nom, String prenom,String email,String motdepasse) {
 		this.id = id;
 		this.nom = nom;
 		this.prenom = prenom;
+		this.email = email;
+		this.motdepasse = motdepasse;
 	}
 	/**
 	 * Getter pour id.
@@ -69,5 +78,34 @@ public abstract class Utilisateur {
 	public void setPrenom(String prenom) {
 		this.prenom = prenom;
 	}
+	/**
+	 * Getter pour email.
+	 * @return the email
+	 */
+	public String getEmail() {
+		return email;
+	}
+	/**
+	 * Setter pour email.
+	 * @param email the email to set
+	 */
+	public void setEmail(String email) {
+		this.email = email;
+	}
+	/**
+	 * Getter pour motdepasse.
+	 * @return the motdepasse
+	 */
+	public String getMotdepasse() {
+		return motdepasse;
+	}
+	/**
+	 * Setter pour motdepasse.
+	 * @param motdepasse the motdepasse to set
+	 */
+	public void setMotdepasse(String motdepasse) {
+		this.motdepasse = motdepasse;
+	}
+	
 	
 }
