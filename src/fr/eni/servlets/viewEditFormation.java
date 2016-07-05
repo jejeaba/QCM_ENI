@@ -12,15 +12,15 @@ import fr.eni.bo.Formation;
 import fr.eni.utils.DynamicEntities;
 
 /**
- * Servlet implementation class accueil
+ * Servlet implementation class viewEditFormation
  */
-public class gestionFormation extends HttpServlet {
+public class viewEditFormation extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public gestionFormation() {
+    public viewEditFormation() {
         super();
         // TODO Auto-generated constructor stub
     }
@@ -29,34 +29,25 @@ public class gestionFormation extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		processRequest(request, response);
+		// TODO Auto-generated method stub
+		response.getWriter().append("Served at: ").append(request.getContextPath());
 	}
 
 	/**
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		processRequest(request, response);
-	}
-
-	/**
-	 * Methode en charge de .
-	 * @param request
-	 * @param response
-	 * @throws IOException 
-	 * @throws ServletException 
-	 */
-	private void processRequest(HttpServletRequest request,
-			HttpServletResponse response) throws ServletException, IOException {
+		String idFormation = (String) request.getAttribute("idFormation");
 		DynamicEntities _db = new DynamicEntities();
 		try {
-			List<Formation> listeFormations = _db.set(Formation.class).selectAll();
-			request.setAttribute("listeFormations",listeFormations );
+			Formation formation = _db.set(Formation.class).selectById(idFormation);
+			request.setAttribute("formation",formation );
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		getServletContext().getRequestDispatcher("/WEB-INF/jsp/compte/gestionFormation.jsp").forward(request, response);
+		getServletContext().getRequestDispatcher("/WEB-INF/jsp/form/formModifFormation.jsp").forward(request, response);
 		
 	}
+
 }

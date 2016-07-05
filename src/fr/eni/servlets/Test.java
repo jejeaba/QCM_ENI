@@ -9,6 +9,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import fr.eni.bo.Formation;
+import fr.eni.bo.Question;
+import fr.eni.bo.Theme;
 import fr.eni.utils.DynamicEntities;
 
 /**
@@ -29,9 +31,19 @@ public class Test extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		DynamicEntities<Formation> de = new DynamicEntities<Formation>(Formation.class);
+		DynamicEntities _db = new DynamicEntities();
 		try {
-			List<Formation> formations = de.selectAll();
+			//List<Question> questions = de.selectAll();
+			//Question question = de.selectById(1);
+			Theme theme = new Theme();
+			theme.setId(1);
+			theme.setNom("Theme");
+			Question question = new Question();
+			question.setEnonce("YO");
+			question.setImage("image");
+			question.setType("type");
+			question.setTheme(theme);
+			_db.set(Question.class).insert(question);
 			System.out.println("OK");
 		} catch (Exception e) {
 			// TODO Auto-generated catch block

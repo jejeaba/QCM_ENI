@@ -6,13 +6,18 @@ package fr.eni.bo;
 import java.util.ArrayList;
 import java.util.List;
 
+import fr.eni.utils.DE;
+
 /**
  * @author Administrateur
  * @date 4 juil. 2016
  * @version QCM - V1.0
  */
 public class Question {
+	@DE(isPrimary=true)
 	private int id;
+	@DE(field="THEME_id")
+	private Theme theme;
 	private String enonce;
 	private String type;
 	private String image;
@@ -31,8 +36,9 @@ public class Question {
 	 * @param type
 	 * @param image
 	 */
-	public Question(int id, String enonce, String type, String image) {
+	public Question(int id, Theme theme, String enonce, String type, String image) {
 		this.id = id;
+		this.theme = theme;
 		this.enonce = enonce;
 		this.type = type;
 		this.image = image;
@@ -77,6 +83,22 @@ public class Question {
 	 */
 	public void setId(int id) {
 		this.id = id;
+	}
+
+	/**
+	 * Getter pour theme.
+	 * @return the theme
+	 */
+	public Theme getTheme() {
+		return theme;
+	}
+
+	/**
+	 * Setter pour theme.
+	 * @param theme the theme to set
+	 */
+	public void setTheme(Theme theme) {
+		this.theme = theme;
 	}
 
 	/**
