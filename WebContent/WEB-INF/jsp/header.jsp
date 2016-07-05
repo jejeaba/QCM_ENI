@@ -15,6 +15,8 @@
   <!-- Theme style -->
   <link rel="stylesheet" href="<%= request.getContextPath() %>/css/AdminLTE.min.css">
   <link rel="stylesheet" href="<%= request.getContextPath() %>/css/skin-blue.min.css">
+  <!-- DataTables -->
+  <link rel="stylesheet" href="<%= request.getContextPath() %>/plugins/datatables/dataTables.bootstrap.css">
 
   <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
   <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
