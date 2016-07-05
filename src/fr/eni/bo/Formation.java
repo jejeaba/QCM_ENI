@@ -6,6 +6,8 @@ package fr.eni.bo;
 import java.util.ArrayList;
 import java.util.List;
 
+import fr.eni.utils.DE;
+
 /**
  * @author Administrateur
  * @date 4 juil. 2016
@@ -15,6 +17,7 @@ public class Formation {
 	private int id;
 	private String nom;
 	private List<Stagiaire> stagiaires = new ArrayList<Stagiaire>();
+	@DE(field="FORMATEUR_id")
 	private Formateur responsable;
 	
 	/**
