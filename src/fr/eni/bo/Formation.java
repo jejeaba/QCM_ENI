@@ -20,6 +20,7 @@ public class Formation {
 	private List<Stagiaire> stagiaires = new ArrayList<Stagiaire>();
 	//@DE(field="FORMATEUR_id")
 	//private Formateur responsable;
+
 	
 	/**
 	 * Constructeur.
