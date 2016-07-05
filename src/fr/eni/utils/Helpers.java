@@ -10,8 +10,9 @@ package fr.eni.utils;
  *
  */
 public class Helpers {
+	
 	public static boolean isArray(Object obj)
 	{
-	    return obj!=null && obj.getClass().isArray();
+		return obj!=null && obj.getClass().isArray();
 	}
 }

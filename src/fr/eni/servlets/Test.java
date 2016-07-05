@@ -33,7 +33,7 @@ public class Test extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		DynamicEntities _db = new DynamicEntities();
 		try {
-			//List<Question> questions = de.selectAll();
+			List<Question> questions = _db.set(Question.class).selectAll();
 			//Question question = de.selectById(1);
 			Theme theme = new Theme();
 			theme.setId(1);

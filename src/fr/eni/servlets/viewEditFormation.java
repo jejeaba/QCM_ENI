@@ -40,8 +40,8 @@ public class viewEditFormation extends HttpServlet {
 		String idFormation = (String) request.getAttribute("idFormation");
 		DynamicEntities _db = new DynamicEntities();
 		try {
-			Formation formation = _db.set(Formation.class).selectById(idFormation);
-			request.setAttribute("formation",formation );
+			//Formation formation = _db.set(Formation.class).selectById(idFormation);
+			//request.setAttribute("formation",formation );
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

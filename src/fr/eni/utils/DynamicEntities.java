@@ -43,44 +43,6 @@ public class DynamicEntities {
 		return this;
 	}
 	
-	private Object getPrimary(Object obj) throws NoSuchMethodException, SecurityException, IllegalAccessException, IllegalArgumentException, InvocationTargetException{
-		Field[] fields = obj.getClass().getDeclaredFields();
-		for (Field field : fields) {
-			if(field.getAnnotations().length > 0){
-				DE de = (DE)field.getAnnotations()[0];
-				if(de.isPrimary()){
-					String methodName = "get" + StringUtils.capitalize(field.getName());
-					Method[] methods = obj.getClass().getMethods();
-					for (Method method : methods) {
-						if(method.getName().equals(methodName)) return method.invoke(obj);
-					}
-					return null;
-				}
-			} 
-		}
-		return null;
-	}
-	
-	private Object setPrimary(Object obj, Object value) throws NoSuchMethodException, SecurityException, IllegalAccessException, IllegalArgumentException, InvocationTargetException{
-		Field[] fields = obj.getClass().getDeclaredFields();
-		for (Field field : fields) {
-			if(field.getAnnotations().length > 0){
-				DE de = (DE)field.getAnnotations()[0];
-				if(de.isPrimary()){
-					String methodName = "set" + StringUtils.capitalize(field.getName());
-					Method[] methods = obj.getClass().getMethods();
-					for (Method method : methods) {
-						if(method.getName().equals(methodName)){
-							method.invoke(obj, value);
-							return obj;
-						}
-					}
-				}
-			} 
-		}
-		return obj;
-	}
-	
 	private List<String> getFields(){
 		return getFields(true);
 	}
@@ -207,12 +169,13 @@ public class DynamicEntities {
 			return rs.getObject(fieldName);
 		}else{
 			DynamicEntities de = new DynamicEntities((Class<?>)type);
-			return de.selectById(rs.getObject(dataBaseFieldName));
+			return de.selectById((int)rs.getObject(dataBaseFieldName));
 		}
 	}
 	
-	public <T> List<T> selectAll() throws Exception{
-		Statement cmd = null;
+	public <T> List<T> select(String queryType, String extraQuery, Object...args) throws Exception{
+		boolean haveExtraQuery = !"".equals(extraQuery) && extraQuery != null;
+		PreparedStatement cmd = null;
 		List<T> returnData = new ArrayList<T>();
 		List<String> dataBaseFields = this.getDataBaseFields();
 		List<String> dataBaseFieldsAndNull = this.getDataBaseFieldsAndNull();
@@ -221,14 +184,22 @@ public class DynamicEntities {
 		sbQuery.append("SELECT ");
 		sbQuery.append(StringUtils.join(dataBaseFields, ", "));
 		sbQuery.append(" FROM ").append(this.entity.getSimpleName().toUpperCase());
+		if(haveExtraQuery){
+			sbQuery.append(" WHERE ").append(extraQuery);
+		}
 		String query = sbQuery.toString();
 		try {
-			cmd = DBAcces.getConnection().createStatement();
-			ResultSet rs = cmd.executeQuery(query);
+			cmd = DBAcces.getConnection().prepareStatement(query);
+			if(haveExtraQuery){
+				int i = 1;
+				for (Object arg : args) {
+					cmd.setObject(i, arg);
+					i++;
+				}
+			}
+			ResultSet rs = cmd.executeQuery();
 			while (rs.next()) {
-				Constructor<?> constructor = this.entity.getConstructor(null);
-				T obj = (T) constructor.newInstance(null);
-				Class objClass = obj.getClass();
+				T obj = (T)ReflexionUtils.constructor(this.entity);
 				int i = 0;
 				for (String field : fields) {
 					Method method = this.setMethod(field);
@@ -240,49 +211,24 @@ public class DynamicEntities {
 			}
 			return returnData;
 		} catch (SQLException e) {
-			throw new Exception(String.format("Impossible d'effectuer une requête SELECT ALL sur l'entitée %1s. Erreur : %2s", this.entity.getSimpleName(), e.getMessage()));
+			throw new Exception(String.format("Impossible d'effectuer une requête %1s sur l'entitée %2s. Erreur : %3s", queryType, this.entity.getSimpleName(), e.getMessage()));
 		} finally {
 			cmd.getConnection().close();
 			cmd = null;
 		}		
 	}
 	
-	public <T> T selectById(Object id) throws Exception{
-		PreparedStatement cmd = null;
-		List<String> dataBaseFields = this.getDataBaseFields();
-		List<String> dataBaseFieldsAndNull = this.getDataBaseFieldsAndNull();
-		List<String> fields = this.getFields();
-		StringBuilder sbQuery = new StringBuilder();
-		sbQuery.append("SELECT ");
-		sbQuery.append(StringUtils.join(dataBaseFields, ", "));
-		sbQuery.append(" FROM ").append(this.entity.getSimpleName().toUpperCase());
-		sbQuery.append(" WHERE id = ?");
-		String query = sbQuery.toString();
-		try {
-			cmd = DBAcces.getConnection().prepareStatement(query);
-			cmd.setInt(1, (int)id);
-			ResultSet rs = cmd.executeQuery();
-			while (rs.next()) {
-				Constructor<?> constructor = this.entity.getConstructor(null);
-				T obj = (T) constructor.newInstance(null);
-				Class objClass = obj.getClass();
-				int i = 0;
-				for (String field : fields) {
-					Method method = this.setMethod(field);
-					String dataBaseFieldName = dataBaseFieldsAndNull.toArray()[i] != null ? dataBaseFieldsAndNull.toArray()[i].toString() : null;
-					method.invoke(obj, getValue(rs, field, dataBaseFieldName, method));
-					i++;
-				}
-				return obj;
-			}
-			return null;
-		} catch (SQLException e) {
-			throw new Exception(String.format("Impossible d'effectuer une requête SELECT BY ID sur l'entitée %1s. Erreur : %2s", this.entity.getSimpleName(), e.getMessage()));
-		} finally {
-			cmd.getConnection().close();
-			cmd = null;
-		}		
+	public <T> List<T> selectAll() throws Exception{
+		return select("SELECT ALL",null);
 	}
+	
+	public <T> T selectById(int id) throws Exception{
+		List<T> returnData = select("SELECT BY ID","id = ?", id);
+		if(!returnData.isEmpty()){
+			return returnData.get(0);
+		}
+		return null; 
+	}	
 	
 	public <T> boolean insert(T obj) throws Exception{
 		PreparedStatement cmd = null;
@@ -294,15 +240,10 @@ public class DynamicEntities {
 		sbQuery.append(this.entity.getSimpleName().toUpperCase());		
 		sbQuery.append(" (").append(StringUtils.join(dataBaseFields, ", ")).append(")");
 		sbQuery.append(" VALUES ");
-		List<String> marks = new ArrayList<String>();
-		for (String dataBaseField : dataBaseFields) {
-			marks.add("?");
-		}
-		sbQuery.append("(").append(StringUtils.join(marks,", ")).append(")");
+		sbQuery.append(SQLUtils.queryMarkers(true, dataBaseFields.size()));
 		String query = sbQuery.toString();
 		try {
 			cmd = DBAcces.getConnection().prepareStatement(query, Statement.RETURN_GENERATED_KEYS);
-			Class objClass = obj.getClass();
 			int i = 0, j = 1;
 			for (String field : fields) {
 				Method method = this.getMethod(field);
@@ -314,15 +255,8 @@ public class DynamicEntities {
 				}else{
 					Object o = method.invoke(obj);
 					Class classe = o.getClass();
-					if(Collection.class.isAssignableFrom(classe)){
-						/*
-						DynamicEntities de = new DynamicEntities(classe);
-						*/
-						//return null;
-					} else if ((ClassUtils.isPrimitiveOrWrapper(classe)|| classe.equals(String.class) )){
-						//return rs.getObject(fieldName);
-					} else {
-						Object primary = getPrimary(o);
+					if(!Collection.class.isAssignableFrom(classe) && !ClassUtils.isPrimitiveOrWrapper(classe) && !classe.equals(String.class)){
+						Object primary = ReflexionUtils.getPrimary(o);
 						cmd.setObject(j, primary);
 						j++;
 					}
@@ -332,7 +266,7 @@ public class DynamicEntities {
 			cmd.executeUpdate();
 			ResultSet rs = cmd.getGeneratedKeys();
 			if(rs.next()){
-				setPrimary(obj, rs.getObject(1));
+				ReflexionUtils.setPrimary(obj, rs.getObject(1));
 			}
 			return true;
 		} catch (SQLException e) {
