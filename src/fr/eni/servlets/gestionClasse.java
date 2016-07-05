@@ -9,13 +9,13 @@ import javax.servlet.http.HttpServletResponse;
 /**
  * Servlet implementation class accueil
  */
-public class gestionFormation extends HttpServlet {
+public class gestionClasse extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public gestionFormation() {
+    public gestionClasse() {
         super();
         // TODO Auto-generated constructor stub
     }
@@ -36,7 +36,7 @@ public class gestionFormation extends HttpServlet {
 	 */
 	private void processRequest(HttpServletRequest request,
 			HttpServletResponse response) throws ServletException, IOException {
-		getServletContext().getRequestDispatcher("/WEB-INF/jsp/compte/gestionFormation.jsp").forward(request, response);
+		getServletContext().getRequestDispatcher("/WEB-INF/jsp/compte/gestionClasse.jsp").forward(request, response);
 		
 	}
 
