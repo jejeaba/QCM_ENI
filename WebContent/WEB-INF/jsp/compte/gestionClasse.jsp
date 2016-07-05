@@ -57,73 +57,9 @@
               </div>
               
             </div>
-            
-            
-            
             <!-- /.box-body -->
     	</div>
-    	<!--popu suppresion Stagiaire -->
-        <div class="modal modal-danger fade" id="deleteStagiaire"  tabindex="-1" role="dialog" aria-labelledby="deleteStagiaireLabel">
-          <div class="modal-dialog">
-            <div class="modal-content">
-              <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                  <span aria-hidden="true">&times;</span></button>
-                <h4 class="modal-title" id="deleteStagiaireLabel">Suppresion</h4>
-              </div>
-              <div class="modal-body">
-                <p>Voulez-vous supprimer la formation CDI15 ?</p>
-              </div>
-              <div class="modal-footer">
-                <button type="button" class="btn btn-outline pull-left" data-dismiss="modal">Close</button>
-                <button type="button" class="btn btn-outline">Supprimer</button>
-              </div>
-            </div>
-          </div>
-        </div>
-        
-        <!--popu ajout Stagiaire -->
-         <div class="modal fade" id="ajout"  tabindex="-1" role="dialog" aria-labelledby="ajoutStagiaireLabel">
-          <div class="modal-dialog modal-sm">
-            <div class="modal-content">
-              <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                  <span aria-hidden="true">&times;</span></button>
-                <h4 class="modal-title" id="ajoutLabel">Ajout Formation</h4>
-              </div>
-              <div class="modal-body">
-                <%@include file="../form/formAjoutStagiaire.jsp" %>
-              </div>
-              <div class="modal-footer">
-                <button type="button" class="btn btn-default pull-left" data-dismiss="modal">Close</button>
-                <button type="button" class="btn btn-primary">Ajouter</button>
-              </div>
-            </div>
-            <!-- /.modal-content -->
-          </div>
-          <!-- /.modal-dialog -->
-        </div>
-        
-        <!--popu modif Stagiaire -->
-         <div class="modal fade" id="modifStagiaire"  tabindex="-1" role="dialog" aria-labelledby="modifStagiaireLabel">
-          <div class="modal-dialog modal-sm">
-            <div class="modal-content">
-              <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                  <span aria-hidden="true">&times;</span></button>
-                <h4 class="modal-title" id="ajoutStagiaireLabel">Modif Formation</h4>
-              </div>
-              <div class="modal-body">
-                <%@include file="../form/formModifStagiaire.jsp" %>
-              </div>
-              <div class="modal-footer">
-                <button type="button" class="btn btn-default pull-left" data-dismiss="modal">Close</button>
-                <button type="button" class="btn btn-primary">Modifier</button>
-              </div>
-            </div>
-            <!-- /.modal-content -->
-          </div>
-          <!-- /.modal-dialog -->
+
         </div>
     </section>
 

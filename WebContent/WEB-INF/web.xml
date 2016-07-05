@@ -70,12 +70,12 @@
   </servlet-mapping>
   <servlet>
     <description></description>
-    <display-name>viewEditFormation</display-name>
-    <servlet-name>viewEditFormation</servlet-name>
-    <servlet-class>fr.eni.servlets.viewEditFormation</servlet-class>
+    <display-name>viewFormation</display-name>
+    <servlet-name>viewFormation</servlet-name>
+    <servlet-class>fr.eni.servlets.viewFormation</servlet-class>
   </servlet>
   <servlet-mapping>
-    <servlet-name>viewEditFormation</servlet-name>
-    <url-pattern>/viewEditFormation</url-pattern>
+    <servlet-name>viewFormation</servlet-name>
+    <url-pattern>/viewFormation</url-pattern>
   </servlet-mapping>
 </web-app>

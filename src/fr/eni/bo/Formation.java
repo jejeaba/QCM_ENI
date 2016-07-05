@@ -20,6 +20,7 @@ public class Formation {
 	private List<Stagiaire> stagiaires = new ArrayList<Stagiaire>();
 	//@DE(field="FORMATEUR_id")
 	//private Formateur responsable;
+
 	
 	/**
 	 * Constructeur.
@@ -37,6 +38,18 @@ public class Formation {
 	 */
 	public Formation(int id, String nom, List<Stagiaire> stagiaires,
 			Formateur responsable) {
+		this.id = id;
+		this.nom = nom;
+		this.stagiaires = stagiaires;
+		//this.responsable = responsable;
+	}
+	/**
+	 * Constructeur .
+	 * @param id
+	 * @param nom
+	 * @param responsable
+	 */
+	public Formation(int id, String nom, Formateur responsable) {
 		this.id = id;
 		this.nom = nom;
 		this.stagiaires = stagiaires;

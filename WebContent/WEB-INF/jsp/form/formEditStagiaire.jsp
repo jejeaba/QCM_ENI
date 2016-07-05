@@ -1,4 +1,3 @@
-
 <div class="box-body">
   <form role="form">
     <!-- text input -->
@@ -8,7 +7,8 @@
 
     <!-- select -->
     <div class="form-group">
-      <select class="form-control" placeholder="Responsable de formation">
+      <label>Select</label>
+      <select class="form-control" placeholder="formateur">
         <option>Jeremy</option>
         <option>Clement</option>
         <option>Bastien</option>
