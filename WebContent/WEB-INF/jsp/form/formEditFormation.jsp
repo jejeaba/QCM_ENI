@@ -7,13 +7,10 @@
 
     <!-- select -->
     <div class="form-group">
-      <label>Select</label>
-      <select class="form-control" placeholder="formateur">
-        <option>Jeremy</option>
-        <option>Clement</option>
-        <option>Bastien</option>
-        <option>Admin</option>
-        <option>Test</option>
+      <select class="form-control">
+      <c:forEach items="${listeFormateurs}" var="formateur">
+      	<option>${Formateur.getNom()}</option>
+      </c:forEach>
       </select>
     </div>
 

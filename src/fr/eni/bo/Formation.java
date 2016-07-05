@@ -43,6 +43,18 @@ public class Formation {
 		this.stagiaires = stagiaires;
 		//this.responsable = responsable;
 	}
+	/**
+	 * Constructeur .
+	 * @param id
+	 * @param nom
+	 * @param responsable
+	 */
+	public Formation(int id, String nom, Formateur responsable) {
+		this.id = id;
+		this.nom = nom;
+		this.stagiaires = stagiaires;
+		//this.responsable = responsable;
+	}
 
 	/**
 	 * Getter pour id.

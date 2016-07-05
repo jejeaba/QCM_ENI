@@ -8,6 +8,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import fr.eni.bo.Formateur;
 import fr.eni.bo.Formation;
 import fr.eni.utils.DynamicEntities;
 
@@ -49,8 +50,24 @@ public class gestionFormation extends HttpServlet {
 	private void processRequest(HttpServletRequest request,
 			HttpServletResponse response) throws ServletException, IOException {
 		DynamicEntities _db = new DynamicEntities();
+		if("Ajouter".equals(request.getParameter("addFormation"))){
+			Formateur formateur;
+			try {
+				formateur = _db.set(Formateur.class).selectById(Integer.parseInt(request.getParameter("formateur")));
+				Formation formation = new Formation(0,request.getParameter("nomFormation"),formateur);
+			} catch (NumberFormatException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} catch (Exception e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+		
 		try {
+			List<Formateur> listeFormateurs = _db.set(Formateur.class).selectAll();
 			List<Formation> listeFormations = _db.set(Formation.class).selectAll();
+			request.setAttribute("listeFormateurs",listeFormateurs );
 			request.setAttribute("listeFormations",listeFormations );
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
