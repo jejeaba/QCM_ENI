@@ -44,12 +44,14 @@ public class viewFormation extends HttpServlet {
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		int idFormation ;
+		List<Formateur> listeFormateurs;
+		DynamicEntities _db = new DynamicEntities();
+		
 		if ("edit".equals(request.getParameter("action"))){
-			List<Formateur> listeFormateurs = listeFormateurs();
 			idFormation = Integer.parseInt(request.getParameter("idFormation"));
-			DynamicEntities _db = new DynamicEntities();
 			try {
 				Formation formation = _db.set(Formation.class).selectById(idFormation);
+				listeFormateurs = _db.set(Formateur.class).selectAll();
 				request.setAttribute("listeFormateurs", listeFormateurs);
 				request.setAttribute("formation",formation );
 			} catch (Exception e) {
@@ -60,7 +62,6 @@ public class viewFormation extends HttpServlet {
 			return;
 		}else if ("delete".equals(request.getParameter("action"))){
 			idFormation = Integer.parseInt(request.getParameter("idFormation"));
-				DynamicEntities _db = new DynamicEntities();
 				try {
 					Formation formation = _db.set(Formation.class).selectById(idFormation);
 					request.setAttribute("formation",formation );
@@ -72,8 +73,14 @@ public class viewFormation extends HttpServlet {
 				return;
 		}else if ("add".equals(request.getParameter("action"))){
 			
-			List<Formateur> listeFormateurs = listeFormateurs();
-			request.setAttribute("listeFormateurs", listeFormateurs);
+			try {
+				listeFormateurs = _db.set(Formateur.class).selectAll();
+				request.setAttribute("listeFormateurs", listeFormateurs);
+			} catch (Exception e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			
 			getServletContext().getRequestDispatcher("/WEB-INF/jsp/form/formation/formAddFormation.jsp").forward(request, response);
 			return; 	
 		}

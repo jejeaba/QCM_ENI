@@ -11,7 +11,7 @@
 </script>
 
 <section class="content">
-	<div class="contnaier">
+	<div class="">
 		<button type="button" class="btn btn-info" data-widget="remove"
 			title="Ajouter Question" onclick="add(event, this);">Ajouter
 			Question</button>

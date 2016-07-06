@@ -10,7 +10,13 @@
     <div class="form-group">
       <select class="form-control" name="formateur">
       <c:forEach items="${listeFormateurs}" var="formateur">
-      	<option value="${formateur.getId()}">${formateur.getNom()} ${formateur.getPrenom()}</option>
+   		<c:choose>
+   		<c:when test="${formation.responsable.getId() == formateur.getId()}">
+   			<option value="${formateur.getId()}" selected> ${formateur.getNom()} ${formateur.getPrenom()}</option>
+   		</c:when>
+   		<c:otherwise><option value="${formateur.getId()}"> ${formateur.getNom()} ${formateur.getPrenom()}</option></c:otherwise>
+   		</c:choose>
+      	
       </c:forEach>
       </select>
     </div>

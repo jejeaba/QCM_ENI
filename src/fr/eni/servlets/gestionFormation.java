@@ -88,34 +88,35 @@ public class gestionFormation extends HttpServlet {
 		}
 		PreparedStatement cmd = null;
 		List<Formation> listeFormations = new ArrayList<Formation>();
-		String query = "  SELECT * FROM getAllFormationWithResponsable";
-		try {
-			cmd = DBAcces.getConnection().prepareStatement(query);
-			//cmd.setInt(1, 1);
-			//List<Object> returnData = new ArrayList<Object>();
-			ResultSet rs = cmd.executeQuery();
-			while (rs.next()) {
-				formateur = new Formateur(
-						rs.getInt("FORMATEUR_id"),
-						rs.getString("formateur_nom"),
-						rs.getString("formateur_prenom"),
-						rs.getString("formateur_email"),
-						rs.getString("formateur_motdepasse")
-						);
-				formation = new Formation(
-						rs.getInt("id"),
-						rs.getString("nom"),
-						formateur);
-				listeFormations.add(formation);
-			}
-		} catch (SQLException e) {
-			throw new Exception(e.getMessage());
-		} finally {
-			cmd.getConnection().close();
-			cmd = null;
-		}		
+//		String query = "  SELECT * FROM getAllFormationWithResponsable";
+//		try {
+//			cmd = DBAcces.getConnection().prepareStatement(query);
+//			//cmd.setInt(1, 1);
+//			//List<Object> returnData = new ArrayList<Object>();
+//			ResultSet rs = cmd.executeQuery();
+//			while (rs.next()) {
+//				formateur = new Formateur(
+//						rs.getInt("FORMATEUR_id"),
+//						rs.getString("formateur_nom"),
+//						rs.getString("formateur_prenom"),
+//						rs.getString("formateur_email"),
+//						rs.getString("formateur_motdepasse")
+//						);
+//				formation = new Formation(
+//						rs.getInt("id"),
+//						rs.getString("nom"),
+//						formateur);
+//				listeFormations.add(formation);
+//			}
+//		} catch (SQLException e) {
+//			throw new Exception(e.getMessage());
+//		} finally {
+//			cmd.getConnection().close();
+//			cmd = null;
+//		}		
 		
 		try {
+			listeFormations = _db.set(Formation.class).selectAll();
 			request.setAttribute("listeFormations",listeFormations );
 		} catch (Exception e) {
 			// TODO Auto-generated catch block

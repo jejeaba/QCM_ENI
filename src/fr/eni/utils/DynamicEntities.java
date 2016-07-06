@@ -173,9 +173,13 @@ public class DynamicEntities {
 		List<Class> classes = new ArrayList<Class>();
 		classes.add(this.entity);
 		while (pass) {
-			classe = classe.getSuperclass();
-			classes.add(classe);
-			pass = classe.isAnnotationPresent(HeritsFrom.class);				
+			if(!java.lang.Object.class.equals(classe.getSuperclass())){
+				classe = classe.getSuperclass();
+				classes.add(classe);
+				pass = classe.isAnnotationPresent(HeritsFrom.class);	
+			}else{
+				pass = false;
+			}
 		}
 		return classes;
 	}

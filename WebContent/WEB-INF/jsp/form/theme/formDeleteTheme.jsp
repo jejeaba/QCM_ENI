@@ -4,7 +4,6 @@
 		action="<%=request.getContextPath()%>/gestionTheme">
 		<p>Voulez-vous supprimer le theme ${theme.getNom() } ?</p>
 		<input type="hidden" name="idTheme" value="${theme.getId() }">
-		<input type="submit" class="btn btn-danger" name="deleteTheme"
-			value="Supprimer">
+		<input type="submit" class="btn btn-danger pull-right" name="deleteTheme" value="Supprimer" >
 	</form>
 </div>

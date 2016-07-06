@@ -101,6 +101,7 @@ function deleteTheme(e, dom){
 		var dialog = new BootstrapDialog({
 			type:BootstrapDialog.TYPE_DANGER,
 			title: 'Suppression du theme',
+			size: BootstrapDialog.SIZE_SMALL,
 	        message: view,
 	        nl2br: false
 	    });
