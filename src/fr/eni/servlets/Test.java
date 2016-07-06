@@ -33,9 +33,11 @@ public class Test extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		DynamicEntities _db = new DynamicEntities(Formateur.class);
+		DynamicEntities _db = new DynamicEntities(Theme.class);
 		try {
-			Formateur formateur = _db.selectById(1);
+			Theme theme = _db.selectById(1);
+			theme.setNom("JEREMYYYYYY!");
+			boolean updated = _db.update(theme);
 			//_db.delete(question);
 			System.out.println("OK");
 		} catch (Exception e) {
