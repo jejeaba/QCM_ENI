@@ -56,7 +56,7 @@
   </servlet>
   <servlet-mapping>
     <servlet-name>gestionFormation</servlet-name>
-    <url-pattern>/gestionFormation</url-pattern>
+    <url-pattern>/admin/gestionFormation</url-pattern>
   </servlet-mapping>
   <servlet>
     <description></description>
@@ -66,7 +66,7 @@
   </servlet>
   <servlet-mapping>
     <servlet-name>gestionClasse</servlet-name>
-    <url-pattern>/gestionClasse</url-pattern>
+    <url-pattern>/admin/gestionClasse</url-pattern>
   </servlet-mapping>
   <servlet>
     <description></description>
@@ -76,7 +76,7 @@
   </servlet>
   <servlet-mapping>
     <servlet-name>viewFormation</servlet-name>
-    <url-pattern>/viewFormation</url-pattern>
+    <url-pattern>/admin/viewFormation</url-pattern>
   </servlet-mapping>
   <servlet>
     <description></description>
@@ -86,7 +86,7 @@
   </servlet>
   <servlet-mapping>
     <servlet-name>viewTheme</servlet-name>
-    <url-pattern>/viewTheme</url-pattern>
+    <url-pattern>/admin/viewTheme</url-pattern>
   </servlet-mapping>
     <servlet>
     <description></description>
@@ -96,7 +96,7 @@
   </servlet>
   <servlet-mapping>
     <servlet-name>gestionTheme</servlet-name>
-    <url-pattern>/gestionTheme</url-pattern>
+    <url-pattern>/admin/gestionTheme</url-pattern>
   </servlet-mapping>
     <servlet>
     <description></description>
@@ -106,7 +106,7 @@
   </servlet>
   <servlet-mapping>
     <servlet-name>viewQuestion</servlet-name>
-    <url-pattern>/viewQuestion</url-pattern>
+    <url-pattern>/admin/viewQuestion</url-pattern>
   </servlet-mapping>
     <servlet>
     <description></description>
@@ -116,6 +116,6 @@
   </servlet>
   <servlet-mapping>
     <servlet-name>gestionQuestion</servlet-name>
-    <url-pattern>/gestionQuestion</url-pattern>
+    <url-pattern>/admin/gestionQuestion</url-pattern>
   </servlet-mapping>
 </web-app>

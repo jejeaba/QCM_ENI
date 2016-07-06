@@ -1,14 +1,14 @@
 function edit(e, dom){
 	e.preventDefault();
 	var id = $(dom).data("id");
-	console.log(id);
 	$.ajax({
-	  url: "<%= request.getContextPath() %>/view"+title,
+	  url: "/"+window.location.pathname.split("/")[1]+"/admin/view"+title,
 	  method: 'POST',
 	  data: {id: id, action: "edit"}
 	}).done(function(view) {
 		var dialog = new BootstrapDialog({
 			title: 'Modifier '+title,
+			size: BootstrapDialog.SIZE_SMALL,
 	        message: view,
 	        nl2br: false
 	    });
@@ -20,15 +20,14 @@ function edit(e, dom){
 }
 function add(e, dom){
 	e.preventDefault();
-	var id = $(dom).data("id");
-	console.log(id);
 	$.ajax({
-	  url: "<%= request.getContextPath() %>/view"+title,
+	  url: "/"+window.location.pathname.split("/")[1]+"/admin/view"+title,
 	  method: 'POST',
-	  data: {id: id,action: "add"}
+	  data: {id: 0,action: "add"}
 	}).done(function(view) {
 		var dialog = new BootstrapDialog({
 			title: 'Ajouter '+title,
+			size: BootstrapDialog.SIZE_SMALL,
 	        message: view,
 	        nl2br: false
 	    });
@@ -38,12 +37,11 @@ function add(e, dom){
 	});
 	 
 }
-function remove(e, dom){
+function supp(e, dom){
 	e.preventDefault();
 	var id = $(dom).data("id");
-	console.log(id);
 	$.ajax({
-	  url: "<%= request.getContextPath() %>/view"+title,
+	  url: "/"+window.location.pathname.split("/")[1]+"/admin/view"+title,
 	  method: 'POST',
 	  data: {id: id, action: "delete"}
 	}).done(function(view) {
