@@ -4,36 +4,38 @@
 <%@include file="../header.jsp"%>
 
 <section class="content-header">
-	<h1>Gestion des formations</h1>
+	<h1>Gestion des Themes</h1>
 </section>
-
+<script>
+	var title = "Theme";
+</script>
 <section class="content">
 	<div class="contnaier">
 		<button type="button" class="btn btn-info" data-widget="remove"
-			title="Ajouter Formation" onclick="addFormation(event, this);">Ajouter
-			Formation</button>
+			title="Ajouter un Theme" onclick="addTheme(event, this);">Ajouter
+			Theme</button>
 		<div class="box">
 			<!-- /.box-header -->
 			<div class="box-body">
-				<table id="gestionFormation"
+				<table id="gestionTheme"
 					class="table table-bordered table-striped">
 					<thead>
 						<tr>
-							<th>Nom de la formation</th>
-							<th>Formateurs</th>
+							<th>Nom du theme</th>
+							<th>Nombre de questions</th>
 							<th>Actions</th>
 						</tr>
 					</thead>
 					<tbody>
 
-						<c:forEach items="${listeFormations}" var="formation">
+						<c:forEach items="${listeThemes}" var="theme">
 							<tr>
-								<td><a href="#">${formation.getNom()}</a></td>
-								<td>${formation.responsable.getNom()} ${formation.responsable.getPrenom()}</td>
+								<td><a href="#">${theme.getNom()}</a></td>
+								<td>?</td>
 								<td>
 									<div class="tools">
-										<a onclick="editFormation(event, this);" data-id-formation="${formation.getId()}" ><i class="fa fa-edit"></i> 
-										<a onclick="deleteFormation(event, this);" data-id-formation="${formation.getId()}"><i class="fa fa-trash-o"></i></a>
+										<a onclick="editTheme(event, this);" data-id-theme="${theme.getId()}" ><i class="fa fa-edit"></i> </a>
+										<a onclick="deleteTheme(event, this);" data-id-theme="${theme.getId()}"><i class="fa fa-trash-o"></i></a>
 									</div>
 								</td>
 							</tr>
@@ -47,17 +49,17 @@
 <%@include file="../footer.jsp"%>
 
 <script>
-function editFormation(e, dom){
+function editTheme(e, dom){
 	e.preventDefault();
-	var idFormation = $(dom).data("id-formation");
-	console.log(idFormation);
+	var idTheme = $(dom).data("id-theme");
+	console.log(idTheme);
 	$.ajax({
-	  url: "<%= request.getContextPath() %>/viewFormation",
+	  url: "<%= request.getContextPath() %>/view"+title,
 	  method: 'POST',
-	  data: {idFormation: idFormation, action: "edit"}
+	  data: {idTheme: idTheme, action: "edit"}
 	}).done(function(view) {
 		var dialog = new BootstrapDialog({
-			title: 'Modifier formation',
+			title: 'Modifier '+title,
 	        message: view,
 	        nl2br: false
 	    });
@@ -67,17 +69,17 @@ function editFormation(e, dom){
 	});
 	 
 }
-function addFormation(e, dom){
+function addTheme(e, dom){
 	e.preventDefault();
-	var idFormation = $(dom).data("id-formation");
-	console.log(idFormation);
+	var idTheme = $(dom).data("id-theme");
+	console.log(idTheme);
 	$.ajax({
-	  url: "<%= request.getContextPath() %>/viewFormation",
+	  url: "<%= request.getContextPath() %>/viewTheme",
 	  method: 'POST',
-	  data: {idFormation: idFormation,action: "add"}
+	  data: {idTheme: idTheme,action: "add"}
 	}).done(function(view) {
 		var dialog = new BootstrapDialog({
-			title: 'Ajouter formation',
+			title: 'Ajouter theme',
 	        message: view,
 	        nl2br: false
 	    });
@@ -87,17 +89,18 @@ function addFormation(e, dom){
 	});
 	 
 }
-function deleteFormation(e, dom){
+function deleteTheme(e, dom){
 	e.preventDefault();
-	var idFormation = $(dom).data("id-formation");
-	console.log(idFormation);
+	var idTheme = $(dom).data("id-theme");
+	console.log(idTheme);
 	$.ajax({
-	  url: "<%= request.getContextPath() %>/viewFormation",
+	  url: "<%= request.getContextPath() %>/viewTheme",
 	  method: 'POST',
-	  data: {idFormation: idFormation, action: "delete"}
+	  data: {idTheme: idTheme, action: "delete"}
 	}).done(function(view) {
 		var dialog = new BootstrapDialog({
-			title: 'Suppresion Formation',
+			type:BootstrapDialog.TYPE_DANGER,
+			title: 'Suppression du theme',
 	        message: view,
 	        nl2br: false
 	    });
@@ -109,7 +112,7 @@ function deleteFormation(e, dom){
 }
 
 	$(function() {
-		$("#gestionFormation").DataTable();
+		$("#gestionTheme").DataTable();
 		//     $('#example2').DataTable({
 		//       "paging": true,
 		//       "lengthChange": false,

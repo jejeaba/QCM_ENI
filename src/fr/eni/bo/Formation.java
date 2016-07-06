@@ -6,6 +6,9 @@ package fr.eni.bo;
 import java.util.ArrayList;
 import java.util.List;
 
+import fr.eni.annotations.JoinColumn;
+import fr.eni.annotations.ManyToOne;
+import fr.eni.annotations.OneToMany;
 import fr.eni.annotations.PrimaryKey;
 import fr.eni.utils.DE;
 
@@ -18,8 +21,10 @@ public class Formation {
 	@PrimaryKey
 	private int id;
 	private String nom;
+	@OneToMany
 	private List<Stagiaire> stagiaires = new ArrayList<Stagiaire>();
-	@DE(field="FORMATEUR_id")
+	@ManyToOne
+	@JoinColumn(name="FORMATEUR_id")
 	private Formateur responsable;
 
 	

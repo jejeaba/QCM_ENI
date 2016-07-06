@@ -78,4 +78,44 @@
     <servlet-name>viewFormation</servlet-name>
     <url-pattern>/viewFormation</url-pattern>
   </servlet-mapping>
+  <servlet>
+    <description></description>
+    <display-name>viewTheme</display-name>
+    <servlet-name>viewTheme</servlet-name>
+    <servlet-class>fr.eni.servlets.viewTheme</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>viewTheme</servlet-name>
+    <url-pattern>/viewTheme</url-pattern>
+  </servlet-mapping>
+    <servlet>
+    <description></description>
+    <display-name>gestionTheme</display-name>
+    <servlet-name>gestionTheme</servlet-name>
+    <servlet-class>fr.eni.servlets.gestionTheme</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>gestionTheme</servlet-name>
+    <url-pattern>/gestionTheme</url-pattern>
+  </servlet-mapping>
+    <servlet>
+    <description></description>
+    <display-name>viewQuestion</display-name>
+    <servlet-name>viewQuestion</servlet-name>
+    <servlet-class>fr.eni.servlets.viewQuestion</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>viewQuestion</servlet-name>
+    <url-pattern>/viewQuestion</url-pattern>
+  </servlet-mapping>
+    <servlet>
+    <description></description>
+    <display-name>gestionQuestion</display-name>
+    <servlet-name>gestionQuestion</servlet-name>
+    <servlet-class>fr.eni.servlets.gestionQuestion</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>gestionQuestion</servlet-name>
+    <url-pattern>/gestionQuestion</url-pattern>
+  </servlet-mapping>
 </web-app>

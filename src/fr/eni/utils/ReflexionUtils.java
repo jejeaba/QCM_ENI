@@ -48,6 +48,16 @@ public class ReflexionUtils {
 		return primaryKey.getName();
 	}
 	
+	public static String getPrimaryKeyName(Class classe){
+		Field[] fields = classe.getDeclaredFields();
+		for (Field field : fields) {
+			if(field.isAnnotationPresent(PrimaryKey.class)){
+				return field.getName();
+			} 
+		}
+		return null;
+	}
+	
 	public static Object getPrimary(Object obj) throws Exception{
 		Field primaryKey = getPrimaryKey(obj);
 		primaryKey.setAccessible(true);

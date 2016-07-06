@@ -37,6 +37,17 @@ public class Theme {
 		this.nom = nom;
 		this.listQuestion = listQuestion;
 	}
+	/**
+	 * 
+	 * Constructeur .
+	 * @param id
+	 * @param nom
+	 */
+	public Theme(int id, String nom) {
+		this.id = id;
+		this.nom = nom;
+		this.listQuestion = listQuestion;
+	}
 	
 	private void addQuestion(Question question){
 		this.listQuestion.add(question);
