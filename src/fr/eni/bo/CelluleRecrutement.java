@@ -15,4 +15,8 @@ public class CelluleRecrutement extends Personnel{
 	public CelluleRecrutement() {
 		super();
 	}
+	
+	public CelluleRecrutement(int id, String nom, String prenom,String email,String motdepasse) {
+		super(id,nom,prenom,email,motdepasse);
+	}
 }

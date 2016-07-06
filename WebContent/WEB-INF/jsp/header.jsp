@@ -1,3 +1,4 @@
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -56,7 +57,7 @@
               <!-- The user image in the navbar-->
               <img src="<%= request.getContextPath() %>/img/user.jpg" class="user-image" alt="User Image">
               <!-- hidden-xs hides the username on small devices so only the image appears. -->
-              <span class="hidden-xs">Alexander Pierce</span>
+              <span class="hidden-xs"><c:if test="${ !empty sessionScope.admin }"><c:out value="${sessionScope.admin.nom} ${sessionScope.admin.prenom }" /></c:if></span>
             </a>
             <ul class="dropdown-menu">
               <!-- The user image in the menu -->
@@ -64,7 +65,7 @@
                 <img src="<%= request.getContextPath() %>/img/user.jpg" class="img-circle" alt="User Image">
 
                 <p>
-                  Alexander Pierce - Web Developer
+                  <c:if test="${ !empty sessionScope.admin }"><c:out value="${sessionScope.admin.nom} ${sessionScope.admin.prenom }" /></c:if>
                   <small>Member since Nov. 2012</small>
                 </p>
               </li>
@@ -99,7 +100,7 @@
           <img src="<%= request.getContextPath() %>/img/user.jpg" class="img-circle" alt="User Image">
         </div>
         <div class="pull-left info">
-          <p>Alexander Pierce</p>
+          <p><c:if test="${ !empty sessionScope.admin }"><c:out value="${sessionScope.admin.nom} ${sessionScope.admin.prenom }" /></c:if></p>
           <!-- Status -->
           <a href="#"><i class="fa fa-circle text-success"></i> Online</a>
         </div>
@@ -107,11 +108,11 @@
 
       <!-- Sidebar Menu -->
       <ul class="sidebar-menu">
-        <li class="active"><a href="#"><i class="fa fa-user"></i> <span>Candidats</span></a></li>
+        <li class="active"><a href="#"><i class="fa fa-users"></i> <span>Candidats</span></a></li>
         <li><a href="#"><i class="fa fa-link"></i> <span>Formations</span></a></li>
-        <li><a href="#"><i class="fa fa-link"></i> <span>Tests</span></a></li>
-        <li><a href="#"><i class="fa fa-link"></i> <span>Sections</span></a></li>
-        <li><a href="#"><i class="fa fa-link"></i> <span>Thèmes</span></a></li>
+        <li><a href="#"><i class="fa fa-check"></i> <span>Tests</span></a></li>
+        <li><a href="#"><i class="fa fa-pie-chart"></i> <span>Sections</span></a></li>
+        <li><a href="#"><i class="fa fa-tags"></i> <span>Thèmes</span></a></li>
         <li><a href="#"><i class="fa fa-question"></i> <span>Questions</span></a></li>
         
       </ul>

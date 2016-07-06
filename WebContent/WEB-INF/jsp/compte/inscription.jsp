@@ -1,3 +1,4 @@
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -34,8 +35,22 @@
     <p class="login-box-msg"></p>
 
     <form action="<%= request.getContextPath() %>/inscription" method="post">
+    <c:if test="${not empty erreur}">
+        <label class="control-label" style="color:red">
+        	<i class="fa fa-times"></i> 
+        	<c:out value="${erreur}"/></label>
+      </c:if>
+      <c:if test="${not empty success}">
+        <label class="control-label" style="color:green">
+        	<i class="fa fa-check"></i> 
+        	<c:out value="${success}"/></label>
+      </c:if>
       <div class="form-group has-feedback">
         <input type="text" class="form-control" name="nom" required placeholder="Nom">
+        <span class="glyphicon glyphicon-user form-control-feedback"></span>
+      </div>
+      <div class="form-group has-feedback">
+        <input type="text" class="form-control" name="prenom" required placeholder="Prenom">
         <span class="glyphicon glyphicon-user form-control-feedback"></span>
       </div>
       <div class="form-group has-feedback">

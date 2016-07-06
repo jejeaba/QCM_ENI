@@ -6,7 +6,12 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
+import fr.eni.bo.CelluleRecrutement;
+import fr.eni.bo.Formateur;
+import fr.eni.dal.CelluleRecrutementDAO;
+import fr.eni.dal.FormateurDAO;
 import fr.eni.utils.Validation;
 
 /**
@@ -63,6 +68,31 @@ public class Login extends HttpServlet {
 				if(error){
 					getServletContext().getRequestDispatcher("/WEB-INF/jsp/compte/login.jsp").forward(request, response);
 					return;
+				}
+				
+				try {
+					HttpSession session = request.getSession();
+					Formateur formateur = FormateurDAO.getByEmailMotDePasse(email, password);
+					if(formateur == null){
+						CelluleRecrutement cellule = CelluleRecrutementDAO.getByEmailMotDePasse(email, password);
+						if(cellule != null){
+							session.setAttribute("admin", cellule);
+							session.setAttribute("role", "cellulerecrutement");
+							response.sendRedirect(request.getContextPath() + "/admin/accueil");
+							return;							
+						}
+					}else{
+						session.setAttribute("admin", formateur);
+						session.setAttribute("role", "formateur");
+						
+						response.sendRedirect(request.getContextPath() + "/admin/accueil");
+						return;
+					}
+					
+					request.setAttribute("erreur", "Email et Mot de passe inccorect !");
+				} catch (Exception e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
 				}
 				
 				// dao.login(email, motdepasse);
