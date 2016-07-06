@@ -12,7 +12,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import fr.eni.bo.Theme;
+import fr.eni.bo.Section;
 import fr.eni.dal.DBAcces;
 import fr.eni.utils.DynamicEntities;
 
@@ -42,28 +42,30 @@ public class viewTest extends HttpServlet {
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		int idTheme = Integer.parseInt(request.getParameter("id"));
+		int idTest = Integer.parseInt(request.getParameter("id"));
 		DynamicEntities _db = new DynamicEntities();
-		
-		Theme theme;
+		List<Section> listeSections;
+		Test test;
 		try {
-			theme = _db.set(Theme.class).selectById(idTheme);
-			request.setAttribute("theme",theme );
+			listeSections = _db.set(Section.class).selectAll();
+			request.setAttribute("listeSections", listeSections);
+			//test = _db.set(Test.class).selectById(idTest);
+			//request.setAttribute("test",test );
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		if ("edit".equals(request.getParameter("action"))){
 			
-			getServletContext().getRequestDispatcher("/WEB-INF/jsp/form/theme/formEditTheme.jsp").forward(request, response);
+			getServletContext().getRequestDispatcher("/WEB-INF/jsp/form/test/formEditTest.jsp").forward(request, response);
 			return;
 		}else if ("delete".equals(request.getParameter("action"))){
 			
-			getServletContext().getRequestDispatcher("/WEB-INF/jsp/form/theme/formDeleteTheme.jsp").forward(request, response);
+			getServletContext().getRequestDispatcher("/WEB-INF/jsp/form/test/formDeleteTest.jsp").forward(request, response);
 			return;
 		}else if ("add".equals(request.getParameter("action"))){
 			
-			getServletContext().getRequestDispatcher("/WEB-INF/jsp/form/theme/formAddTheme.jsp").forward(request, response);
+			getServletContext().getRequestDispatcher("/WEB-INF/jsp/form/test/formAddTest.jsp").forward(request, response);
 			return; 	
 		}
 	}

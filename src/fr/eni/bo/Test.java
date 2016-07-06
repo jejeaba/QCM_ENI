@@ -7,6 +7,8 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import fr.eni.annotations.OneToMany;
+
 /**
  * @author Administrateur
  * @date 4 juil. 2016
@@ -15,9 +17,9 @@ import java.util.List;
 public class Test {
 	private int id;
 	private String nom;
-	private Date temps;
 	private int seuilAcquis;
 	private int seuilEnCoursAcquis;
+	@OneToMany
 	private List<Section> listSection = new ArrayList<Section>();
 	
 	/**
@@ -33,14 +35,18 @@ public class Test {
 	 * @param seuilEnCoursAcquis
 	 * @param listSection
 	 */
-	public Test(int id, String nom, Date temps, int seuilAcquis,
+	public Test(int id, String nom, int seuilAcquis,
 			int seuilEnCoursAcquis, List<Section> listSection) {
-		this.id = id;
+		this(id);
 		this.nom = nom;
-		this.temps = temps;
+		
 		this.seuilAcquis = seuilAcquis;
 		this.seuilEnCoursAcquis = seuilEnCoursAcquis;
 		this.listSection = listSection;
+	}
+	public Test(int id) {
+		super();
+		this.id = id;
 	}
 	
 	public void addSection(Section section){
@@ -78,20 +84,7 @@ public class Test {
 	public void setNom(String nom) {
 		this.nom = nom;
 	}
-	/**
-	 * Getter pour temps.
-	 * @return the temps
-	 */
-	public Date getTemps() {
-		return temps;
-	}
-	/**
-	 * Setter pour temps 
-	 * @param temps the temps to set
-	 */
-	public void setTemps(Date temps) {
-		this.temps = temps;
-	}
+	
 	/**
 	 * Getter pour seuilAcquis.
 	 * @return the seuilAcquis

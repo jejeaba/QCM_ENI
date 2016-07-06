@@ -44,10 +44,8 @@ public class Formation {
 	 */
 	public Formation(int id, String nom, List<Stagiaire> stagiaires,
 			Formateur responsable) {
-		this.id = id;
-		this.nom = nom;
+		this(id,nom,responsable);
 		this.stagiaires = stagiaires;
-		this.responsable = responsable;
 	}
 	/**
 	 * Constructeur .
