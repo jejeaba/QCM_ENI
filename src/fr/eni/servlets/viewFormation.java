@@ -48,7 +48,7 @@ public class viewFormation extends HttpServlet {
 		DynamicEntities _db = new DynamicEntities();
 		
 		if ("edit".equals(request.getParameter("action"))){
-			idFormation = Integer.parseInt(request.getParameter("idFormation"));
+			idFormation = Integer.parseInt(request.getParameter("id"));
 			try {
 				Formation formation = _db.set(Formation.class).selectById(idFormation);
 				listeFormateurs = _db.set(Formateur.class).selectAll();
@@ -61,7 +61,7 @@ public class viewFormation extends HttpServlet {
 			getServletContext().getRequestDispatcher("/WEB-INF/jsp/form/formation/formEditFormation.jsp").forward(request, response);
 			return;
 		}else if ("delete".equals(request.getParameter("action"))){
-			idFormation = Integer.parseInt(request.getParameter("idFormation"));
+			idFormation = Integer.parseInt(request.getParameter("id"));
 				try {
 					Formation formation = _db.set(Formation.class).selectById(idFormation);
 					request.setAttribute("formation",formation );

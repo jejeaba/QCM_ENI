@@ -2,12 +2,7 @@
 <web-app xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://java.sun.com/xml/ns/javaee" xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd" id="WebApp_ID" version="2.5">
   <display-name>QCM_ENI</display-name>
   <welcome-file-list>
-    <welcome-file>index.html</welcome-file>
-    <welcome-file>index.htm</welcome-file>
-    <welcome-file>index.jsp</welcome-file>
-    <welcome-file>default.html</welcome-file>
-    <welcome-file>default.htm</welcome-file>
-    <welcome-file>default.jsp</welcome-file>
+    <welcome-file>/login</welcome-file>
   </welcome-file-list>
   <servlet>
     <description></description>
@@ -117,5 +112,45 @@
   <servlet-mapping>
     <servlet-name>gestionQuestion</servlet-name>
     <url-pattern>/admin/gestionQuestion</url-pattern>
+  </servlet-mapping>
+  <servlet>
+    <description></description>
+    <display-name>viewTest</display-name>
+    <servlet-name>viewTest</servlet-name>
+    <servlet-class>fr.eni.servlets.viewTest</servlet-class>
+  </servlet>
+  <servlet-mapping>
+  <servlet-name>viewTest</servlet-name>
+    <url-pattern>/admin/viewTest</url-pattern>
+  </servlet-mapping>
+    <servlet>
+    <description></description>
+    <display-name>gestionTest</display-name>
+    <servlet-name>gestionTest</servlet-name>
+    <servlet-class>fr.eni.servlets.gestionTest</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>gestionTest</servlet-name>
+    <url-pattern>/admin/gestionTest</url-pattern>
+  </servlet-mapping>
+    <servlet>
+    <description></description>
+    <display-name>viewSection</display-name>
+    <servlet-name>viewSection</servlet-name>
+    <servlet-class>fr.eni.servlets.viewSection</servlet-class>
+  </servlet>
+  <servlet-mapping>
+  <servlet-name>viewSection</servlet-name>
+    <url-pattern>/admin/viewSection</url-pattern>
+  </servlet-mapping>
+    <servlet>
+    <description></description>
+    <display-name>gestionSection</display-name>
+    <servlet-name>gestionSection</servlet-name>
+    <servlet-class>fr.eni.servlets.gestionSection</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>gestionSection</servlet-name>
+    <url-pattern>/admin/gestionSection</url-pattern>
   </servlet-mapping>
 </web-app>

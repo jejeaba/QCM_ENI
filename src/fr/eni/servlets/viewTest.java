@@ -19,13 +19,13 @@ import fr.eni.utils.DynamicEntities;
 /**
  * Servlet implementation class viewEditFormation
  */
-public class viewTheme extends HttpServlet {
+public class viewTest extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public viewTheme() {
+    public viewTest() {
         super();
         // TODO Auto-generated constructor stub
     }

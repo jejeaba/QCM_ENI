@@ -15,13 +15,13 @@ import fr.eni.utils.DynamicEntities;
 /**
  * Servlet implementation class accueil
  */
-public class gestionTheme extends HttpServlet {
+public class gestionTest extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public gestionTheme() {
+    public gestionTest() {
         super();
         // TODO Auto-generated constructor stub
     }

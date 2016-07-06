@@ -8,20 +8,20 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-
+import fr.eni.bo.Section;
 import fr.eni.bo.Theme;
 import fr.eni.utils.DynamicEntities;
 
 /**
  * Servlet implementation class accueil
  */
-public class gestionTheme extends HttpServlet {
+public class gestionSection extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public gestionTheme() {
+    public gestionSection() {
         super();
         // TODO Auto-generated constructor stub
     }
@@ -59,12 +59,16 @@ public class gestionTheme extends HttpServlet {
 	private void processRequest(HttpServletRequest request,
 			HttpServletResponse response) throws Exception {
 		DynamicEntities _db = new DynamicEntities();
-		Theme theme;
-		int idTheme;
-		if("Ajouter".equals(request.getParameter("addTheme"))){
+		Section section;
+		int idSection;
+		if("Ajouter".equals(request.getParameter("addSection"))){
 			try {
-				theme = new Theme(0,request.getParameter("nomTheme"));
-				_db.set(Theme.class).insert(theme);
+				int idTheme = Integer.parseInt(request.getParameter("theme"));
+				Theme theme = _db.set(Theme.class).selectById(idTheme);
+				int duree = Integer.parseInt(request.getParameter("duree"));
+				int nbQuestion = Integer.parseInt(request.getParameter("nbQuestion"));
+				section = new Section(0,request.getParameter("nomSection"),theme,nbQuestion,duree);
+				_db.set(Section.class).insert(section);
 			} catch (NumberFormatException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
@@ -73,24 +77,24 @@ public class gestionTheme extends HttpServlet {
 				e.printStackTrace();
 			}
 	
-		}else if("Modifier".equals(request.getParameter("editTheme"))){
-			idTheme = Integer.parseInt(request.getParameter("idTheme"));
-			theme = new Theme(idTheme,request.getParameter("nomTheme"));
-			_db.set(Theme.class).update(theme);
-		}else if("Supprimer".equals(request.getParameter("deleteTheme"))){
-			idTheme = Integer.parseInt(request.getParameter("idTheme"));
-			theme = new Theme(idTheme,"");
-			Boolean ret = _db.set(Theme.class).delete(theme);
+		}else if("Modifier".equals(request.getParameter("editSection"))){
+			idSection = Integer.parseInt(request.getParameter("idSection"));
+			section = new Section();
+			_db.set(Section.class).update(section);
+		}else if("Supprimer".equals(request.getParameter("deleteSection"))){
+			idSection = Integer.parseInt(request.getParameter("idSection"));
+			section = new Section();
+			Boolean ret = _db.set(Section.class).delete(section);
 		}
 		
 		try {
-			List<Theme> listeThemes = _db.set(Theme.class).selectAll(); 
-			request.setAttribute("listeThemes",listeThemes );
+			List<Section> listeSections = _db.set(Section.class).selectAll(); 
+			request.setAttribute("listeSections",listeSections );
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		getServletContext().getRequestDispatcher("/WEB-INF/jsp/compte/gestionTheme.jsp").forward(request, response);
+		getServletContext().getRequestDispatcher("/WEB-INF/jsp/compte/gestionSection.jsp").forward(request, response);
 		
 	}
 }

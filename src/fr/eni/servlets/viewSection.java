@@ -12,6 +12,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import fr.eni.bo.Section;
 import fr.eni.bo.Theme;
 import fr.eni.dal.DBAcces;
 import fr.eni.utils.DynamicEntities;
@@ -19,13 +20,13 @@ import fr.eni.utils.DynamicEntities;
 /**
  * Servlet implementation class viewEditFormation
  */
-public class viewTheme extends HttpServlet {
+public class viewSection extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public viewTheme() {
+    public viewSection() {
         super();
         // TODO Auto-generated constructor stub
     }
@@ -42,28 +43,28 @@ public class viewTheme extends HttpServlet {
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		int idTheme = Integer.parseInt(request.getParameter("id"));
+		int idSection = Integer.parseInt(request.getParameter("id"));
 		DynamicEntities _db = new DynamicEntities();
 		
-		Theme theme;
-		try {
-			theme = _db.set(Theme.class).selectById(idTheme);
-			request.setAttribute("theme",theme );
-		} catch (Exception e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+		Section section;
+//		try {
+//			section = _db.set(Section.class).selectById(idSection);
+//			request.setAttribute("section",section );
+//		} catch (Exception e) {
+//			// TODO Auto-generated catch block
+//			e.printStackTrace();
+//		}
 		if ("edit".equals(request.getParameter("action"))){
 			
-			getServletContext().getRequestDispatcher("/WEB-INF/jsp/form/theme/formEditTheme.jsp").forward(request, response);
+			getServletContext().getRequestDispatcher("/WEB-INF/jsp/form/theme/formEditSection.jsp").forward(request, response);
 			return;
 		}else if ("delete".equals(request.getParameter("action"))){
 			
-			getServletContext().getRequestDispatcher("/WEB-INF/jsp/form/theme/formDeleteTheme.jsp").forward(request, response);
+			getServletContext().getRequestDispatcher("/WEB-INF/jsp/form/theme/formDeleteSection.jsp").forward(request, response);
 			return;
 		}else if ("add".equals(request.getParameter("action"))){
 			
-			getServletContext().getRequestDispatcher("/WEB-INF/jsp/form/theme/formAddTheme.jsp").forward(request, response);
+			getServletContext().getRequestDispatcher("/WEB-INF/jsp/form/theme/formAddSection.jsp").forward(request, response);
 			return; 	
 		}
 	}
