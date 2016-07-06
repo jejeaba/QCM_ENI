@@ -4,7 +4,7 @@
 <%@include file="../header.jsp"%>
 
 <section class="content-header">
-	<h1>Gestion des Themes</h1>
+	<h1>Gestion des Thèmes</h1>
 </section>
 <script>
 	var title = "Theme";
