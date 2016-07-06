@@ -6,6 +6,7 @@ package fr.eni.bo;
 import java.util.ArrayList;
 import java.util.List;
 
+import fr.eni.annotations.PrimaryKey;
 import fr.eni.utils.DE;
 
 /**
@@ -14,7 +15,7 @@ import fr.eni.utils.DE;
  * @version QCM - V1.0
  */
 public class Formation {
-	@DE(isPrimary=true)
+	@PrimaryKey
 	private int id;
 	private String nom;
 	private List<Stagiaire> stagiaires = new ArrayList<Stagiaire>();

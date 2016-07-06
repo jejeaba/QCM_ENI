@@ -22,7 +22,7 @@ public class SQLUtils {
 			markers.add("?");
 		}
 		String strMarkers = StringUtils.join(markers,", ");
-		if (brackets) return strMarkers;
+		if (!brackets) return strMarkers;
 		StringBuilder sb = new StringBuilder();
 		sb.append("(").append(strMarkers).append(")");
 		return sb.toString();

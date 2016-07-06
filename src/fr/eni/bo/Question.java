@@ -6,6 +6,10 @@ package fr.eni.bo;
 import java.util.ArrayList;
 import java.util.List;
 
+import fr.eni.annotations.JoinColumn;
+import fr.eni.annotations.ManyToOne;
+import fr.eni.annotations.OneToMany;
+import fr.eni.annotations.PrimaryKey;
 import fr.eni.utils.DE;
 
 /**
@@ -14,13 +18,15 @@ import fr.eni.utils.DE;
  * @version QCM - V1.0
  */
 public class Question {
-	@DE(isPrimary=true)
+	@PrimaryKey
 	private int id;
-	@DE(field="THEME_id")
+	@ManyToOne()
+	@JoinColumn(name="THEME_id")
 	private Theme theme;
 	private String enonce;
 	private String type;
 	private String image;
+	@OneToMany()
 	private List<Reponse> listReponse = new ArrayList<Reponse>();
 	/**
 	 * Constructeur.

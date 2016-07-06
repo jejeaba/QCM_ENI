@@ -3,6 +3,7 @@
  */
 package fr.eni.utils;
 
+import java.lang.annotation.Annotation;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
@@ -18,6 +19,11 @@ import java.util.List;
 
 import org.apache.commons.lang3.ClassUtils;
 import org.apache.commons.lang3.StringUtils;
+
+import fr.eni.annotations.JoinColumn;
+import fr.eni.annotations.ManyToOne;
+import fr.eni.annotations.OneToMany;
+import fr.eni.annotations.PrimaryKey;
 import fr.eni.dal.DBAcces;
 
 /**
@@ -51,16 +57,11 @@ public class DynamicEntities {
 		List<String> returnData  = new ArrayList<String>();
 		Field[] fields = this.entity.getDeclaredFields();
 		for (java.lang.reflect.Field field : fields) {
-			if(field.getAnnotations().length > 0){
-				DE de = (DE)field.getAnnotations()[0];
+			if(field.isAnnotationPresent(PrimaryKey.class)){
 				if(withPrimary){
 					returnData.add(field.getName());
-				} else {
-					if(!de.isPrimary()){
-						returnData.add(field.getName());
-					}
-				}
-			} else {
+				}			
+			}else{
 				returnData.add(field.getName());
 			}
 		}
@@ -90,23 +91,16 @@ public class DynamicEntities {
 		List<String> returnData  = new ArrayList<String>();
 		Field[] fields = this.entity.getDeclaredFields();
 		for (Field field : fields) {
-			if(field.getAnnotations().length > 0){
-				DE de = (DE)field.getAnnotations()[0];
+			if(field.isAnnotationPresent(PrimaryKey.class)){
 				if(withPrimary){
-					if(!"".equals(de.field())){
-						returnData.add(de.field());
-					}else{
-						returnData.add(field.getName());
-					}
-				} else {
-					if(!de.isPrimary()){
-						returnData.add(de.field());					
-					}
+					returnData.add(field.getName());
 				}
-			} else if(!Collection.class.isAssignableFrom(field.getType())){
-				returnData.add(field.getName());
-			} else{
+			}else if(field.isAnnotationPresent(ManyToOne.class)){
+				returnData.add(field.getAnnotation(JoinColumn.class).name());
+			} else if(field.isAnnotationPresent(OneToMany.class)){
 				returnData.add(null);
+			}else{
+				returnData.add(field.getName());
 			}
 		}
 		return returnData;
@@ -266,11 +260,52 @@ public class DynamicEntities {
 			cmd.executeUpdate();
 			ResultSet rs = cmd.getGeneratedKeys();
 			if(rs.next()){
-				ReflexionUtils.setPrimary(obj, rs.getObject(1));
+				ReflexionUtils.setPrimary(obj, ReflexionUtils.parserExceptions(rs.getObject(1)));
 			}
 			return true;
 		} catch (SQLException e) {
 			throw new Exception(String.format("Impossible d'effectuer une requête INSERT sur l'entitée %1s. Erreur : %2s", this.entity.getSimpleName(), e.getMessage()));
+		} finally {
+			cmd.getConnection().close();
+			cmd = null;
+		}	
+	}
+	
+	public <T> boolean update(T obj) throws Exception{
+		String entityName = obj.getClass().getSimpleName();
+		PreparedStatement cmd = null;
+		String primaryKeyName = ReflexionUtils.getPrimaryKeyName(obj);
+		Object primaryKey = ReflexionUtils.getPrimary(obj);
+		StringBuilder sbQuery = new StringBuilder();
+		sbQuery.append("UPDATE ");
+		sbQuery.append(entityName.toUpperCase());	
+		sbQuery.append(" WHERE ").append(primaryKeyName).append(" = ?");
+		String query = sbQuery.toString();
+		try {
+			cmd = DBAcces.getConnection().prepareStatement(query);
+			cmd.setObject(1, primaryKey);
+			cmd.executeUpdate();
+			return true;
+		} catch (SQLException e) {
+			throw new Exception(String.format("Impossible d'effectuer une requête UPDATE sur l'entitée %1s. Erreur : %2s", entityName, e.getMessage()));
+		} finally {
+			cmd.getConnection().close();
+			cmd = null;
+		}	
+	}
+	
+	public <T> boolean delete(T obj) throws Exception{
+		String entityName = obj.getClass().getSimpleName();
+		PreparedStatement cmd = null;
+		String primaryKeyName = ReflexionUtils.getPrimaryKeyName(obj);
+		Object primaryKey = ReflexionUtils.getPrimary(obj);
+		try {
+			cmd = DBAcces.getConnection().prepareStatement(QueryCreator.delete(obj));
+			cmd.setObject(1, primaryKey);
+			cmd.executeUpdate();
+			return true;
+		} catch (SQLException e) {
+			throw new Exception(String.format("Impossible d'effectuer une requête DELETE sur l'entitée %1s. Erreur : %2s", entityName, e.getMessage()));
 		} finally {
 			cmd.getConnection().close();
 			cmd = null;

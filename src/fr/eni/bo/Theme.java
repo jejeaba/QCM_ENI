@@ -6,6 +6,8 @@ package fr.eni.bo;
 import java.util.ArrayList;
 import java.util.List;
 
+import fr.eni.annotations.OneToMany;
+import fr.eni.annotations.PrimaryKey;
 import fr.eni.utils.DE;
 
 /**
@@ -14,9 +16,10 @@ import fr.eni.utils.DE;
  * @version QCM - V1.0
  */
 public class Theme {
-	@DE(isPrimary=true)
+	@PrimaryKey
 	private int id;
 	private String nom;
+	@OneToMany
 	private List<Question> listQuestion = new ArrayList<Question>();
 	
 	/**

@@ -8,6 +8,7 @@ package fr.eni.bo;
  * @date 4 juil. 2016
  * @version QCM - V1.0
  */
+@HeritsFrom(classe="Personnel")
 public class Formateur extends Personnel{
 	/**
 	 * Constructeur.

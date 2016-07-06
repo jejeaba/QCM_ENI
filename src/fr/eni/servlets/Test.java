@@ -12,6 +12,7 @@ import fr.eni.bo.Formation;
 import fr.eni.bo.Question;
 import fr.eni.bo.Theme;
 import fr.eni.utils.DynamicEntities;
+import fr.eni.utils.QueryCreator;
 
 /**
  * Servlet implementation class Test
@@ -31,19 +32,10 @@ public class Test extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		DynamicEntities _db = new DynamicEntities();
+		DynamicEntities _db = new DynamicEntities(Question.class);
 		try {
-			List<Question> questions = _db.set(Question.class).selectAll();
-			//Question question = de.selectById(1);
-			Theme theme = new Theme();
-			theme.setId(1);
-			theme.setNom("Theme");
-			Question question = new Question();
-			question.setEnonce("YO");
-			question.setImage("image");
-			question.setType("type");
-			question.setTheme(theme);
-			_db.set(Question.class).insert(question);
+			Question question = _db.selectById(1);
+			//_db.delete(question);
 			System.out.println("OK");
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
