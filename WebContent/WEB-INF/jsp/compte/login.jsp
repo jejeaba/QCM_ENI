@@ -1,3 +1,4 @@
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -28,39 +29,54 @@
 <body class="hold-transition login-page">
 <div class="login-box">
   <div class="login-logo">
-    <a href=""><b>Admin</b>LTE</a>
+    <a href=""><b>Admin</b>QCM</a>
   </div>
   <!-- /.login-logo -->
   <div class="login-box-body">
     <p class="login-box-msg"></p>
 
-    <form action="../../index2.html" method="post">
-      <div class="form-group has-feedback">
-        <input type="email" class="form-control" placeholder="Email">
+    <form action="<%= request.getContextPath() %>/login" method="post">
+    <c:if test="${not empty erreur}">
+        <label class="control-label" for="inputError">
+        	<i class="fa fa-times-circle-o"></i> 
+        	<c:out value="${erreur}"/></label>
+      </c:if>
+      <div class="form-group has-feedback <c:if test="${not empty erreurEmail}">has-error</c:if>">
+      <c:if test="${not empty erreurEmail}">
+        <label class="control-label" for="inputError">
+        	<i class="fa fa-times-circle-o"></i> 
+        	<c:out value="${erreurEmail}"/></label>
+      </c:if>
+        <input type="email" class="form-control" name="email" required placeholder="Email">
         <span class="glyphicon glyphicon-envelope form-control-feedback"></span>
       </div>
       <div class="form-group has-feedback">
-        <input type="password" class="form-control" placeholder="Password">
+      <c:if test="${not empty erreurPassword}">
+        <label class="control-label" for="inputError">
+        	<i class="fa fa-times-circle-o"></i> 
+        	<c:out value="${erreurPassword}"/></label>
+      </c:if>
+        <input type="password" class="form-control" name="password" required placeholder="Password">
         <span class="glyphicon glyphicon-lock form-control-feedback"></span>
       </div>
       <div class="row">
         <div class="col-xs-8">
           <div class="checkbox icheck">
             <label>
-              <input type="checkbox"> Remember Me
+              <input type="checkbox" name="rememberMe"> Se souvenir de moi
             </label>
           </div>
         </div>
         <!-- /.col -->
         <div class="col-xs-4">
-          <button type="submit" class="btn btn-primary btn-block btn-flat">Sign In</button>
+          <button type="submit" name="submit" value="submit" class="btn btn-primary btn-block btn-flat">Sign In</button>
         </div>
         <!-- /.col -->
       </div>
     </form>
 
 <!--     <a href="#">I forgot my password</a><br> -->
-    <a href="register.html" class="text-center">Register a new membership</a>
+    <a href="<%= request.getContextPath() %>/inscription" class="text-center">S'enregistrer</a>
 
   </div>
   <!-- /.login-box-body -->

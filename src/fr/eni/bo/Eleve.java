@@ -25,6 +25,7 @@ public abstract class Eleve extends Utilisateur {
 	 */
 	public Eleve(List<Resultat> listResult) {
 		this.resultats = listResult;
+		
 	}
 	
 	public void addResultat(Resultat resultat){
