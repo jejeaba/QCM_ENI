@@ -1,6 +1,10 @@
 package fr.eni.servlets;
 
 import java.io.IOException;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.servlet.ServletException;
@@ -8,7 +12,9 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import fr.eni.bo.Formateur;
 import fr.eni.bo.Formation;
+import fr.eni.dal.DBAcces;
 import fr.eni.utils.DynamicEntities;
 
 /**
@@ -63,6 +69,37 @@ public class viewFormation extends HttpServlet {
 				getServletContext().getRequestDispatcher("/WEB-INF/jsp/form/formDeleteFormation.jsp").forward(request, response);
 				return;
 		}else if ("add".equals(request.getParameter("action"))){
+			Formateur formateur ;
+			List<Formateur> listeFormateurs = new ArrayList<Formateur>();
+			PreparedStatement cmd = null;
+			String query = "  SELECT * FROM getAllFormateur";
+			try {
+				cmd = DBAcces.getConnection().prepareStatement(query);
+				//cmd.setInt(1, 1);
+				//List<Object> returnData = new ArrayList<Object>();
+				ResultSet rs = cmd.executeQuery();
+				while (rs.next()) {
+					formateur = new Formateur(
+							rs.getInt("id"),
+							rs.getString("nom"),
+							rs.getString("prenom"),
+							rs.getString("email"),
+							rs.getString("motdepasse")
+							);
+					listeFormateurs.add(formateur);
+				}
+			} catch (SQLException e) {
+				e.printStackTrace();
+			} finally {
+				try {
+					cmd.getConnection().close();
+				} catch (SQLException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+				cmd = null;
+			}	
+			request.setAttribute("listeFormateurs", listeFormateurs);
 			getServletContext().getRequestDispatcher("/WEB-INF/jsp/form/formAddFormation.jsp").forward(request, response);
 			return; 	
 		}

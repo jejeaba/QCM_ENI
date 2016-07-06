@@ -27,33 +27,40 @@
 <body class="hold-transition register-page">
 <div class="register-box">
   <div class="register-logo">
-    <a href="../../index2.html"><b>Admin</b>LTE</a>
+    <a href=""><b>Admin</b>QCM</a>
   </div>
 
   <div class="register-box-body">
     <p class="login-box-msg"></p>
 
-    <form action="../../index.html" method="post">
+    <form action="<%= request.getContextPath() %>/inscription" method="post">
       <div class="form-group has-feedback">
-        <input type="text" class="form-control" placeholder="Nom">
+        <input type="text" class="form-control" name="nom" required placeholder="Nom">
         <span class="glyphicon glyphicon-user form-control-feedback"></span>
       </div>
       <div class="form-group has-feedback">
-        <input type="email" class="form-control" placeholder="Email">
+        <input type="email" class="form-control" name="email" required placeholder="Email">
         <span class="glyphicon glyphicon-envelope form-control-feedback"></span>
       </div>
       <div class="form-group has-feedback">
-        <input type="password" class="form-control" placeholder="Mot de passe">
+        <input type="password" class="form-control" required name="password" placeholder="Mot de passe">
         <span class="glyphicon glyphicon-lock form-control-feedback"></span>
       </div>
       <div class="form-group has-feedback">
-        <input type="password" class="form-control" placeholder="Mot de passe">
+        <input type="password"  class="form-control" required name="password2" placeholder="Mot de passe">
         <span class="glyphicon glyphicon-log-in form-control-feedback"></span>
       </div>
+      <div class="form-group has-feedback">
+        <select name="role" id="" class="form-control" required>
+        	<option value="formateur">Formateur</option>
+        	<option value="cellulerecrutement">Cellule de recrutement</option>
+        </select>
+      </div>
+      
       <div class="row">
         <!-- /.col -->
         <div class="col-xs-5">
-          <button type="submit" class="btn btn-primary btn-block btn-flat">S'enregistrer</button>
+          <button type="submit" name="submit" value="submit" class="btn btn-primary btn-block btn-flat">S'enregistrer</button>
         </div>
         <!-- /.col -->
       </div>

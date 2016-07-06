@@ -19,8 +19,8 @@ public class Formation {
 	private int id;
 	private String nom;
 	private List<Stagiaire> stagiaires = new ArrayList<Stagiaire>();
-	//@DE(field="FORMATEUR_id")
-	//private Formateur responsable;
+	@DE(field="FORMATEUR_id")
+	private Formateur responsable;
 
 	
 	/**
@@ -42,7 +42,7 @@ public class Formation {
 		this.id = id;
 		this.nom = nom;
 		this.stagiaires = stagiaires;
-		//this.responsable = responsable;
+		this.responsable = responsable;
 	}
 	/**
 	 * Constructeur .
@@ -53,8 +53,7 @@ public class Formation {
 	public Formation(int id, String nom, Formateur responsable) {
 		this.id = id;
 		this.nom = nom;
-		this.stagiaires = stagiaires;
-		//this.responsable = responsable;
+		this.responsable = responsable;
 	}
 
 	/**
@@ -109,17 +108,17 @@ public class Formation {
 	 * Getter pour responsable.
 	 * @return the responsable
 	 */
-	//public Formateur getResponsable() {
-	//	return responsable;
-	//}
+	public Formateur getResponsable() {
+		return responsable;
+	}
 
 	/**
 	 * Setter pour responsable 
 	 * @param responsable the responsable to set
 	 */
-	//public void setResponsable(Formateur responsable) {
-	//	this.responsable = responsable;
-	//}
+	public void setResponsable(Formateur responsable) {
+		this.responsable = responsable;
+	}
 	
 	
 }
