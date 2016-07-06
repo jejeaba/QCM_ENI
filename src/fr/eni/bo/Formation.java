@@ -6,16 +6,21 @@ package fr.eni.bo;
 import java.util.ArrayList;
 import java.util.List;
 
+import fr.eni.utils.DE;
+
 /**
  * @author Administrateur
  * @date 4 juil. 2016
  * @version QCM - V1.0
  */
 public class Formation {
+	@DE(isPrimary=true)
 	private int id;
 	private String nom;
 	private List<Stagiaire> stagiaires = new ArrayList<Stagiaire>();
+	@DE(field="FORMATEUR_id")
 	private Formateur responsable;
+
 	
 	/**
 	 * Constructeur.
@@ -36,6 +41,17 @@ public class Formation {
 		this.id = id;
 		this.nom = nom;
 		this.stagiaires = stagiaires;
+		this.responsable = responsable;
+	}
+	/**
+	 * Constructeur .
+	 * @param id
+	 * @param nom
+	 * @param responsable
+	 */
+	public Formation(int id, String nom, Formateur responsable) {
+		this.id = id;
+		this.nom = nom;
 		this.responsable = responsable;
 	}
 

@@ -48,4 +48,34 @@
     <servlet-name>Inscription</servlet-name>
     <url-pattern>/inscription</url-pattern>
   </servlet-mapping>
+  <servlet>
+    <description></description>
+    <display-name>gestionFormation</display-name>
+    <servlet-name>gestionFormation</servlet-name>
+    <servlet-class>fr.eni.servlets.gestionFormation</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>gestionFormation</servlet-name>
+    <url-pattern>/gestionFormation</url-pattern>
+  </servlet-mapping>
+  <servlet>
+    <description></description>
+    <display-name>gestionClasse</display-name>
+    <servlet-name>gestionClasse</servlet-name>
+    <servlet-class>fr.eni.servlets.gestionClasse</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>gestionClasse</servlet-name>
+    <url-pattern>/gestionClasse</url-pattern>
+  </servlet-mapping>
+  <servlet>
+    <description></description>
+    <display-name>viewFormation</display-name>
+    <servlet-name>viewFormation</servlet-name>
+    <servlet-class>fr.eni.servlets.viewFormation</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>viewFormation</servlet-name>
+    <url-pattern>/viewFormation</url-pattern>
+  </servlet-mapping>
 </web-app>
