@@ -6,11 +6,13 @@
 <section class="content-header">
 	<h1>Gestion des formations</h1>
 </section>
-
+<script>
+	var title = "Formation";
+</script>
 <section class="content">
 	<div class="contnaier">
 		<button type="button" class="btn btn-info" data-widget="remove"
-			title="Ajouter Formation" onclick="addFormation(event, this);">Ajouter
+			title="Ajouter Formation" onclick="add(event, this);">Ajouter
 			Formation</button>
 		<div class="box">
 			<!-- /.box-header -->
@@ -32,8 +34,8 @@
 								<td>${formation.responsable.getNom()} ${formation.responsable.getPrenom()}</td>
 								<td>
 									<div class="tools">
-										<a onclick="editFormation(event, this);" data-id-formation="${formation.getId()}" ><i class="fa fa-edit"></i> 
-										<a onclick="deleteFormation(event, this);" data-id-formation="${formation.getId()}"><i class="fa fa-trash-o"></i></a>
+										<a onclick="edit(event, this);" data-id="${formation.getId()}" ><i class="fa fa-edit fa-2x"></i> 
+										<a onclick="supp(event, this);" data-id="${formation.getId()}"><i class="fa fa-trash-o fa-2x"></i></a>
 									</div>
 								</td>
 							</tr>
@@ -47,67 +49,6 @@
 <%@include file="../footer.jsp"%>
 
 <script>
-function editFormation(e, dom){
-	e.preventDefault();
-	var idFormation = $(dom).data("id-formation");
-	console.log(idFormation);
-	$.ajax({
-	  url: "<%= request.getContextPath() %>/viewFormation",
-	  method: 'POST',
-	  data: {idFormation: idFormation, action: "edit"}
-	}).done(function(view) {
-		var dialog = new BootstrapDialog({
-			title: 'Modifier formation',
-	        message: view,
-	        nl2br: false
-	    });
-		dialog.realize();
-		dialog.getModalFooter().hide();
-		dialog.open();
-	});
-	 
-}
-function addFormation(e, dom){
-	e.preventDefault();
-	var idFormation = $(dom).data("id-formation");
-	console.log(idFormation);
-	$.ajax({
-	  url: "<%= request.getContextPath() %>/viewFormation",
-	  method: 'POST',
-	  data: {idFormation: idFormation,action: "add"}
-	}).done(function(view) {
-		var dialog = new BootstrapDialog({
-			title: 'Ajouter formation',
-	        message: view,
-	        nl2br: false
-	    });
-		dialog.realize();
-		dialog.getModalFooter().hide();
-		dialog.open();
-	});
-	 
-}
-function deleteFormation(e, dom){
-	e.preventDefault();
-	var idFormation = $(dom).data("id-formation");
-	console.log(idFormation);
-	$.ajax({
-	  url: "<%= request.getContextPath() %>/viewFormation",
-	  method: 'POST',
-	  data: {idFormation: idFormation, action: "delete"}
-	}).done(function(view) {
-		var dialog = new BootstrapDialog({
-			title: 'Suppresion Formation',
-	        message: view,
-	        nl2br: false
-	    });
-		dialog.realize();
-		dialog.getModalFooter().hide();
-		dialog.open();
-	    });   
-	 
-}
-
 	$(function() {
 		$("#gestionFormation").DataTable();
 		//     $('#example2').DataTable({

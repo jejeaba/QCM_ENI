@@ -43,7 +43,7 @@ public class viewTheme extends HttpServlet {
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		int idTheme;
-		idTheme = Integer.parseInt(request.getParameter("idTheme"));
+		idTheme = Integer.parseInt(request.getParameter("id"));
 		DynamicEntities _db = new DynamicEntities();
 		
 		Theme theme;

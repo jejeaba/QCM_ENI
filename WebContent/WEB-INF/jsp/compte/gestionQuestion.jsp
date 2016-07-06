@@ -36,8 +36,8 @@
 								<td>?</td>
 								<td>
 									<div class="tools">
-										<a onclick="edit(event, this);" data-id="${question.getId()}" ><i class="fa fa-edit"></i> </a>
-										<a onclick="remove(event, this);" data-id="${question.getId()}"><i class="fa fa-trash-o"></i></a>
+										<a onclick="edit(event, this);" data-id="${question.getId()}" ><i class="fa fa-edit fa-2x"></i> </a>
+										<a onclick="supp(event, this);" data-id="${question.getId()}"><i class="fa fa-trash-o fa-2x"></i></a>
 									</div>
 								</td>
 							</tr>
@@ -49,7 +49,6 @@
 </section>
 
 <%@include file="../footer.jsp"%>
-<script src="<%= request.getContextPath() %>/js/script.js"></script>
 <script>
 	$(function() {
 		$("#gestionQuestion").DataTable();
