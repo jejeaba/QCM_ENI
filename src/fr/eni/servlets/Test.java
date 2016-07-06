@@ -8,6 +8,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import fr.eni.bo.Formateur;
 import fr.eni.bo.Formation;
 import fr.eni.bo.Question;
 import fr.eni.bo.Theme;
@@ -32,9 +33,9 @@ public class Test extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		DynamicEntities _db = new DynamicEntities(Question.class);
+		DynamicEntities _db = new DynamicEntities(Formateur.class);
 		try {
-			Question question = _db.selectById(1);
+			Formateur formateur = _db.selectById(1);
 			//_db.delete(question);
 			System.out.println("OK");
 		} catch (Exception e) {

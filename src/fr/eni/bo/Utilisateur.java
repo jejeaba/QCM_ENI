@@ -3,6 +3,7 @@
  */
 package fr.eni.bo;
 
+import fr.eni.annotations.PrimaryKey;
 import fr.eni.utils.DE;
 
 /**
@@ -11,7 +12,7 @@ import fr.eni.utils.DE;
  * @version QCM - V1.0
  */
 public class Utilisateur {
-	@DE(isPrimary=true)
+	@PrimaryKey
 	private int id;
 	private String nom;
 	private String prenom;

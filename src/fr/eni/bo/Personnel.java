@@ -10,6 +10,7 @@ import fr.eni.utils.DE;
  * @date 4 juil. 2016
  * @version QCM - V1.0
  */
+@HeritsFrom(classe="Utilisateur")
 public abstract class Personnel extends Utilisateur{
 	/**
 	 * Constructeur.

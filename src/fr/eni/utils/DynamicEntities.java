@@ -24,6 +24,7 @@ import fr.eni.annotations.JoinColumn;
 import fr.eni.annotations.ManyToOne;
 import fr.eni.annotations.OneToMany;
 import fr.eni.annotations.PrimaryKey;
+import fr.eni.bo.HeritsFrom;
 import fr.eni.dal.DBAcces;
 
 /**
@@ -49,13 +50,13 @@ public class DynamicEntities {
 		return this;
 	}
 	
-	private List<String> getFields(){
-		return getFields(true);
+	private List<String> getFields(Class classe){
+		return getFields(classe, true);
 	}
 	
-	private List<String> getFields(boolean withPrimary){
+	private List<String> getFields(Class classe, boolean withPrimary){
 		List<String> returnData  = new ArrayList<String>();
-		Field[] fields = this.entity.getDeclaredFields();
+		Field[] fields = classe.getDeclaredFields();
 		for (java.lang.reflect.Field field : fields) {
 			if(field.isAnnotationPresent(PrimaryKey.class)){
 				if(withPrimary){
@@ -68,13 +69,13 @@ public class DynamicEntities {
 		return returnData;
 	}
 	
-	private List<String> getDataBaseFields(){
-		return getDataBaseFields(true);	
+	private List<String> getDataBaseFields(Class classe){
+		return getDataBaseFields(classe, true);	
 	}
 	
-	private List<String> getDataBaseFields(boolean withPrimary){
+	private List<String> getDataBaseFields(Class classe, boolean withPrimary){
 		List<String> returnData  = new ArrayList<String>();
-		List<String> fields = this.getDataBaseFieldsAndNull(withPrimary);
+		List<String> fields = this.getDataBaseFieldsAndNull(classe, withPrimary);
 		for (String field : fields) {
 			if(field != null){
 				returnData.add(field);
@@ -83,13 +84,13 @@ public class DynamicEntities {
 		return returnData;		
 	}
 	
-	private List<String> getDataBaseFieldsAndNull(){
-		return getDataBaseFieldsAndNull(true);
+	private List<String> getDataBaseFieldsAndNull(Class classe){
+		return getDataBaseFieldsAndNull(classe, true);
 	}
 	
-	private List<String> getDataBaseFieldsAndNull(boolean withPrimary){
+	private List<String> getDataBaseFieldsAndNull(Class classe, boolean withPrimary){
 		List<String> returnData  = new ArrayList<String>();
-		Field[] fields = this.entity.getDeclaredFields();
+		Field[] fields = classe.getDeclaredFields();
 		for (Field field : fields) {
 			if(field.isAnnotationPresent(PrimaryKey.class)){
 				if(withPrimary){
@@ -106,9 +107,9 @@ public class DynamicEntities {
 		return returnData;
 	}
 	
-	private List<Method> getMethods(){
+	private List<Method> getMethods(Class classe){
 		List<Method> returnData  = new ArrayList<Method>();
-		Method[] methods = this.entity.getMethods();
+		Method[] methods = classe.getMethods();
 		for (java.lang.reflect.Method method : methods) {
 			if(method.getName().startsWith("get")){
 				returnData.add(method);
@@ -117,18 +118,18 @@ public class DynamicEntities {
 		return returnData;
 	}
 	
-	private Method getMethod(String fieldName) throws NoSuchMethodException, SecurityException{
+	private Method getMethod(Class classe, String fieldName) throws NoSuchMethodException, SecurityException{
 		String methodName = "get" + StringUtils.capitalize(fieldName);
-		List<Method> methods = this.getMethods();
+		List<Method> methods = this.getMethods(classe);
 		for (Method method : methods) {
 			if(method.getName().equals(methodName)) return method;
 		}
 		return null;
 	}
 	
-	private List<Method> setMethods(){
+	private List<Method> setMethods(Class classe){
 		List<Method> returnData  = new ArrayList<Method>();
-		Method[] methods = this.entity.getMethods();
+		Method[] methods = classe.getMethods();
 		for (java.lang.reflect.Method method : methods) {
 			if(method.getName().startsWith("set")){
 				returnData.add(method);
@@ -137,9 +138,9 @@ public class DynamicEntities {
 		return returnData;
 	}
 	
-	private Method setMethod(String fieldName) throws NoSuchMethodException, SecurityException{
+	private Method setMethod(Class classe, String fieldName) throws NoSuchMethodException, SecurityException{
 		String methodName = "set" + StringUtils.capitalize(fieldName);
-		List<Method> methods = this.setMethods();
+		List<Method> methods = this.setMethods(classe);
 		for (Method method : methods) {
 			if(method.getName().equals(methodName)) return method;
 		}
@@ -167,17 +168,65 @@ public class DynamicEntities {
 		}
 	}
 	
+	private List<Class> herits(Class classe){
+		boolean pass = true;
+		List<Class> classes = new ArrayList<Class>();
+		classes.add(this.entity);
+		while (pass) {
+			classe = classe.getSuperclass();
+			classes.add(classe);
+			pass = classe.isAnnotationPresent(HeritsFrom.class);				
+		}
+		return classes;
+	}
+	
+	public String fromQuery(Class classe){
+		if(classe.isAnnotationPresent(HeritsFrom.class)){
+			List<String> strFrom = new ArrayList<String>();
+			List<Class> classes = herits(classe);
+			for (int i = 0; i < classes.size(); i++) {
+				Class current = (Class)classes.get(i);
+				if(i == 0){
+					strFrom.add(current.getSimpleName().toUpperCase());
+				} else if (i > 0){
+					Class before = (Class)classes.get(i - 1);
+					Class last = (Class)classes.get(classes.size() - 1);
+					String primary = ReflexionUtils.getPrimaryKeyName(last);
+					StringBuilder sb = new StringBuilder();
+					sb.append(current.getSimpleName().toUpperCase());
+					sb.append(" ON ");
+					sb.append(before.getSimpleName().toUpperCase()).append(".").append(primary);
+					sb.append(" = ").append(current.getSimpleName().toUpperCase()).append(".").append(primary);
+					strFrom.add(sb.toString());
+				}
+			}
+			return StringUtils.join(strFrom, " INNER JOIN ");
+		} else {
+			return classe.getSimpleName().toUpperCase();
+		}
+	}
+	
 	public <T> List<T> select(String queryType, String extraQuery, Object...args) throws Exception{
+		Class classe = this.entity;
+		String fromQuery = fromQuery(classe);
+		List<Class> classes = herits(classe);
+		if(classes.size() > 1){
+			classe = (Class)classes.get(classes.size()-1);
+		}
 		boolean haveExtraQuery = !"".equals(extraQuery) && extraQuery != null;
 		PreparedStatement cmd = null;
 		List<T> returnData = new ArrayList<T>();
-		List<String> dataBaseFields = this.getDataBaseFields();
-		List<String> dataBaseFieldsAndNull = this.getDataBaseFieldsAndNull();
-		List<String> fields = this.getFields();
+		List<String> dataBaseFields = this.getDataBaseFields(classe);
+		List<String> dataBaseFieldsAndNull = this.getDataBaseFieldsAndNull(classe);
+		List<String> fields = this.getFields(classe);
 		StringBuilder sbQuery = new StringBuilder();
 		sbQuery.append("SELECT ");
-		sbQuery.append(StringUtils.join(dataBaseFields, ", "));
-		sbQuery.append(" FROM ").append(this.entity.getSimpleName().toUpperCase());
+		List<String> selectQuery = new ArrayList<String>();
+		for (String dataBaseField : dataBaseFields) {
+			selectQuery.add(classe.getSimpleName().toUpperCase() + "." + dataBaseField);
+		}
+		sbQuery.append(StringUtils.join(selectQuery, ", "));
+		sbQuery.append(" FROM ").append(fromQuery);
 		if(haveExtraQuery){
 			sbQuery.append(" WHERE ").append(extraQuery);
 		}
@@ -196,7 +245,7 @@ public class DynamicEntities {
 				T obj = (T)ReflexionUtils.constructor(this.entity);
 				int i = 0;
 				for (String field : fields) {
-					Method method = this.setMethod(field);
+					Method method = this.setMethod(this.entity, field);
 					String dataBaseFieldName = dataBaseFieldsAndNull.toArray()[i] != null ? dataBaseFieldsAndNull.toArray()[i].toString() : null;
 					method.invoke(obj, getValue(rs, field, dataBaseFieldName, method));
 					i++;
@@ -217,7 +266,13 @@ public class DynamicEntities {
 	}
 	
 	public <T> T selectById(int id) throws Exception{
-		List<T> returnData = select("SELECT BY ID","id = ?", id);
+		Class classe = this.entity;
+		List<Class> classes = herits(classe);
+		if(classes.size() > 1){
+			classe = (Class)classes.get(classes.size()-1);
+		}
+		String primaryKeyName = ReflexionUtils.getPrimaryKeyName(classe);
+		List<T> returnData = select("SELECT BY ID",classe.getSimpleName().toUpperCase() + "." + primaryKeyName + " = ?", id);
 		if(!returnData.isEmpty()){
 			return returnData.get(0);
 		}
@@ -225,10 +280,11 @@ public class DynamicEntities {
 	}	
 	
 	public <T> boolean insert(T obj) throws Exception{
+		Class classe = obj.getClass();
 		PreparedStatement cmd = null;
-		List<String> dataBaseFields = this.getDataBaseFields(false);
-		List<String> dataBaseFieldsAndNull = this.getDataBaseFieldsAndNull(false);
-		List<String> fields = this.getFields(false);
+		List<String> dataBaseFields = this.getDataBaseFields(classe,false);
+		List<String> dataBaseFieldsAndNull = this.getDataBaseFieldsAndNull(classe,false);
+		List<String> fields = this.getFields(classe,false);
 		StringBuilder sbQuery = new StringBuilder();
 		sbQuery.append("INSERT INTO ");
 		sbQuery.append(this.entity.getSimpleName().toUpperCase());		
@@ -240,7 +296,7 @@ public class DynamicEntities {
 			cmd = DBAcces.getConnection().prepareStatement(query, Statement.RETURN_GENERATED_KEYS);
 			int i = 0, j = 1;
 			for (String field : fields) {
-				Method method = this.getMethod(field);
+				Method method = this.getMethod(classe,field);
 				String dataBaseFieldName = dataBaseFieldsAndNull.toArray()[i] != null ? dataBaseFieldsAndNull.toArray()[i].toString() : null;
 				if(field.equals(dataBaseFieldName)){
 					Object o = method.invoke(obj);
@@ -248,8 +304,8 @@ public class DynamicEntities {
 					j++;
 				}else{
 					Object o = method.invoke(obj);
-					Class classe = o.getClass();
-					if(!Collection.class.isAssignableFrom(classe) && !ClassUtils.isPrimitiveOrWrapper(classe) && !classe.equals(String.class)){
+					Class c = o.getClass();
+					if(!Collection.class.isAssignableFrom(c) && !ClassUtils.isPrimitiveOrWrapper(c) && !c.equals(String.class)){
 						Object primary = ReflexionUtils.getPrimary(o);
 						cmd.setObject(j, primary);
 						j++;
