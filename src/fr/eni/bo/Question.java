@@ -24,9 +24,10 @@ public class Question {
 	@JoinColumn(name="THEME_id")
 	private Theme theme;
 	private String enonce;
-	private String type;
+	private boolean type;
 	private String image;
 	@OneToMany()
+	@JoinColumn(name="QUESTION_id")
 	private List<Reponse> listReponse = new ArrayList<Reponse>();
 	/**
 	 * Constructeur.
@@ -42,14 +43,21 @@ public class Question {
 	 * @param type
 	 * @param image
 	 */
-	public Question(int id, Theme theme, String enonce, String type, String image) {
+	public Question(int id, Theme theme, String enonce, boolean type, String image) {
 		this.id = id;
 		this.theme = theme;
 		this.enonce = enonce;
 		this.type = type;
 		this.image = image;
 	}
-	
+	/**
+	 * 
+	 * Constructeur .
+	 * @param id
+	 */
+	public Question(int id){
+		
+	}
 	public void addReponse(Reponse reponse){
 		listReponse.add(reponse);
 	}
@@ -127,7 +135,7 @@ public class Question {
 	 * Getter pour type.
 	 * @return the type
 	 */
-	public String getType() {
+	public boolean getType() {
 		return type;
 	}
 
@@ -135,7 +143,7 @@ public class Question {
 	 * Setter pour type 
 	 * @param type the type to set
 	 */
-	public void setType(String type) {
+	public void setType(boolean type) {
 		this.type = type;
 	}
 
