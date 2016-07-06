@@ -13,6 +13,7 @@ import fr.eni.bo.Formation;
 import fr.eni.bo.Question;
 import fr.eni.bo.Theme;
 import fr.eni.utils.DynamicEntities;
+import fr.eni.utils.QueryBuilder;
 import fr.eni.utils.QueryCreator;
 
 /**
@@ -33,6 +34,8 @@ public class Test extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		QueryBuilder.select(Question.class);
+		/*
 		DynamicEntities _db = new DynamicEntities(Theme.class);
 		try {
 			Theme theme = _db.selectById(1);
@@ -45,6 +48,7 @@ public class Test extends HttpServlet {
 			System.out.println(e.getMessage());
 			e.printStackTrace();
 		}
+		*/
 	}
 
 	/**
