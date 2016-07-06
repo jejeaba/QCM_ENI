@@ -1,1 +1,0 @@
-<p>Voulez-vous supprimer la formation ${formation.getNom() } ?</p>

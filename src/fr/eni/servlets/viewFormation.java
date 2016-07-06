@@ -45,16 +45,18 @@ public class viewFormation extends HttpServlet {
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		int idFormation ;
 		if ("edit".equals(request.getParameter("action"))){
+			List<Formateur> listeFormateurs = listeFormateurs();
 			idFormation = Integer.parseInt(request.getParameter("idFormation"));
 			DynamicEntities _db = new DynamicEntities();
 			try {
 				Formation formation = _db.set(Formation.class).selectById(idFormation);
+				request.setAttribute("listeFormateurs", listeFormateurs);
 				request.setAttribute("formation",formation );
 			} catch (Exception e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
-			getServletContext().getRequestDispatcher("/WEB-INF/jsp/form/formEditFormation.jsp").forward(request, response);
+			getServletContext().getRequestDispatcher("/WEB-INF/jsp/form/formation/formEditFormation.jsp").forward(request, response);
 			return;
 		}else if ("delete".equals(request.getParameter("action"))){
 			idFormation = Integer.parseInt(request.getParameter("idFormation"));
@@ -66,43 +68,49 @@ public class viewFormation extends HttpServlet {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
-				getServletContext().getRequestDispatcher("/WEB-INF/jsp/form/formDeleteFormation.jsp").forward(request, response);
+				getServletContext().getRequestDispatcher("/WEB-INF/jsp/form/formation/formDeleteFormation.jsp").forward(request, response);
 				return;
 		}else if ("add".equals(request.getParameter("action"))){
-			Formateur formateur ;
-			List<Formateur> listeFormateurs = new ArrayList<Formateur>();
-			PreparedStatement cmd = null;
-			String query = "  SELECT * FROM getAllFormateur";
-			try {
-				cmd = DBAcces.getConnection().prepareStatement(query);
-				//cmd.setInt(1, 1);
-				//List<Object> returnData = new ArrayList<Object>();
-				ResultSet rs = cmd.executeQuery();
-				while (rs.next()) {
-					formateur = new Formateur(
-							rs.getInt("id"),
-							rs.getString("nom"),
-							rs.getString("prenom"),
-							rs.getString("email"),
-							rs.getString("motdepasse")
-							);
-					listeFormateurs.add(formateur);
-				}
-			} catch (SQLException e) {
-				e.printStackTrace();
-			} finally {
-				try {
-					cmd.getConnection().close();
-				} catch (SQLException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
-				cmd = null;
-			}	
+			
+			List<Formateur> listeFormateurs = listeFormateurs();
 			request.setAttribute("listeFormateurs", listeFormateurs);
-			getServletContext().getRequestDispatcher("/WEB-INF/jsp/form/formAddFormation.jsp").forward(request, response);
+			getServletContext().getRequestDispatcher("/WEB-INF/jsp/form/formation/formAddFormation.jsp").forward(request, response);
 			return; 	
 		}
 	}
-
+	
+	public static List<Formateur> listeFormateurs(){
+		Formateur formateur ;
+		List<Formateur> listeFormateurs = new ArrayList<Formateur>();
+		PreparedStatement cmd = null;
+		String query = "  SELECT * FROM getAllFormateur";
+		try {
+			cmd = DBAcces.getConnection().prepareStatement(query);
+			//cmd.setInt(1, 1);
+			//List<Object> returnData = new ArrayList<Object>();
+			ResultSet rs = cmd.executeQuery();
+			while (rs.next()) {
+				formateur = new Formateur(
+						rs.getInt("id"),
+						rs.getString("nom"),
+						rs.getString("prenom"),
+						rs.getString("email"),
+						rs.getString("motdepasse")
+						);
+				listeFormateurs.add(formateur);
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			try {
+				cmd.getConnection().close();
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			cmd = null;
+		
+		}
+		return listeFormateurs;
+	}
 }

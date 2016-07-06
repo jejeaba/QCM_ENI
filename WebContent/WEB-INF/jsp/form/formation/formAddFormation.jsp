@@ -7,10 +7,10 @@
     </div>
 
     <!-- select -->
-    <div class="form-group">
-      <select class="js-example-basic-single" name="formateur" >
-        <c:forEach items="${listeFormateurs}" var="formateur">
-      	<option value="${formateur.getId()}">${formateur.getNom()} ${formateur.getPrenom()}</option>
+   <div class="form-group">
+      <select class="form-control">
+      <c:forEach items="${listeFormateurs}" var="formateur">
+      	<option>${formateur.getNom()} ${formateur.getPrenom()}</option>
       </c:forEach>
       </select>
     </div>

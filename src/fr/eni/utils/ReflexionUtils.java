@@ -3,12 +3,22 @@
  */
 package fr.eni.utils;
 
+import java.lang.annotation.Annotation;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
+import java.lang.reflect.Type;
+import java.math.BigDecimal;
+import java.util.Collection;
 
 import org.apache.commons.lang3.StringUtils;
+
+import com.sun.corba.se.impl.naming.cosnaming.InternalBindingValue;
+
+import fr.eni.annotations.OneToMany;
+import fr.eni.annotations.PrimaryKey;
+import sun.security.util.BigInt;
 
 /**
  * @author blemaitre2015
@@ -19,45 +29,70 @@ import org.apache.commons.lang3.StringUtils;
 public class ReflexionUtils {
 	
 	public static <T> T constructor(Class<T> classe) throws Exception{
-		Constructor<T> constructor = classe.getConstructor(null);
-		return (T) constructor.newInstance(null);	
+		return classe.getConstructor(null).newInstance(null);	
 	}
 	
-	public static Object getPrimary(Object obj) throws NoSuchMethodException, SecurityException, IllegalAccessException, IllegalArgumentException, InvocationTargetException{
-		Field[] fields = obj.getClass().getDeclaredFields();
+	public static Field getPrimaryKey(Object obj){
+		Field[] fields = getFields(obj);
 		for (Field field : fields) {
-			if(field.getAnnotations().length > 0){
-				DE de = (DE)field.getAnnotations()[0];
-				if(de.isPrimary()){
-					String methodName = "get" + StringUtils.capitalize(field.getName());
-					Method[] methods = obj.getClass().getMethods();
-					for (Method method : methods) {
-						if(method.getName().equals(methodName)) return method.invoke(obj);
-					}
-					return null;
-				}
+			if(field.isAnnotationPresent(PrimaryKey.class)){
+				return field;
 			} 
 		}
 		return null;
 	}
 	
-	public static Object setPrimary(Object obj, Object value) throws NoSuchMethodException, SecurityException, IllegalAccessException, IllegalArgumentException, InvocationTargetException{
-		Field[] fields = obj.getClass().getDeclaredFields();
+	public static String getPrimaryKeyName(Object obj){
+		Field primaryKey = getPrimaryKey(obj);
+		if(primaryKey == null) return null;		
+		return primaryKey.getName();
+	}
+	
+	public static String getPrimaryKeyName(Class classe){
+		Field[] fields = classe.getDeclaredFields();
 		for (Field field : fields) {
-			if(field.getAnnotations().length > 0){
-				DE de = (DE)field.getAnnotations()[0];
-				if(de.isPrimary()){
-					String methodName = "set" + StringUtils.capitalize(field.getName());
-					Method[] methods = obj.getClass().getMethods();
-					for (Method method : methods) {
-						if(method.getName().equals(methodName)){
-							method.invoke(obj, value);
-							return obj;
-						}
-					}
-				}
+			if(field.isAnnotationPresent(PrimaryKey.class)){
+				return field.getName();
 			} 
 		}
+		return null;
+	}
+	
+	public static Object getPrimary(Object obj) throws Exception{
+		Field primaryKey = getPrimaryKey(obj);
+		primaryKey.setAccessible(true);
+		return primaryKey.get(obj);
+	}	
+	
+	public static Object setPrimary(Object obj, Object value) throws Exception{
+		Field primaryKey = getPrimaryKey(obj);
+		primaryKey.setAccessible(true);
+		primaryKey.set(obj, value);
 		return obj;
+	}
+	
+	public static Field[] getFields(Object obj){
+		return obj.getClass().getDeclaredFields();
+	}
+	/*
+	public static List<String> getDataBaseFields(Object obj){
+		Field[] fields = getFields(obj);
+		for (Field field : fields) {
+			if(field.isAnnotationPresent(OneToMany.class)){
+				
+			}
+		}
+	}
+	*/
+	
+	public static boolean isCollection(Type type){
+		return Collection.class.isAssignableFrom((Class<?>) type);
+	}
+	
+	public static Object parserExceptions(Object value){
+		if(BigDecimal.class.isInstance(value)){
+			return ((BigDecimal)value).intValue();
+		}
+		return value;
 	}
 }
