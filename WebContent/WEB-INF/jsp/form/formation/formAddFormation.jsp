@@ -1,6 +1,6 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <div class="box-body">
-  <form role="form" methode="POST" action="<%= request.getContextPath() %>/admin/gestionFormation">
+  <form role="form" method="POST" action="<%= request.getContextPath() %>/admin/gestionFormation">
     <!-- text input -->
     <div class="form-group">
       <input type="text" class="form-control" name="nomFormation" placeholder="Nom" required="required">

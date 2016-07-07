@@ -4,38 +4,42 @@
 <%@include file="../header.jsp"%>
 
 <section class="content-header">
-	<h1>Gestion des Thèmes</h1>
+	<h1>Gestion des Sections</h1>
 </section>
 <script>
-	var title = "Theme";
+	var title = "Section";
 </script>
 <section class="content">
-	<div class="contnaier">
+	<div class="">
 		<button type="button" class="btn btn-info" data-widget="remove"
-			title="Ajouter un Theme" onclick="add(event, this);">Ajouter
-			Theme</button>
+			title="Ajouter Section" onclick="add(event, this);">Ajouter
+			Section</button>
 		<div class="box">
 			<!-- /.box-header -->
 			<div class="box-body">
-				<table id="gestionTheme"
+				<table id="gestionSection"
 					class="table table-bordered table-striped">
 					<thead>
 						<tr>
-							<th>Nom du theme</th>
+							<th>Nom de la section</th>
+							<th>Thèmes</th>
 							<th>Nombre de questions</th>
+							<th>Durée en minute</th>
 							<th>Actions</th>
 						</tr>
 					</thead>
 					<tbody>
 
-						<c:forEach items="${listeThemes}" var="theme">
+						<c:forEach items="${listeSections}" var="section">
 							<tr>
-								<td><a href="#">${theme.getNom()}</a></td>
-								<td>${theme.listQuestion.size}</td>
+								<td><a href="#">${section.getNom()}</a></td>
+								<td>${section.theme.getNom()}</td>
+								<td>${section.getNb_Questions()}</td>
+								<td>${section.getDuree()}</td>
 								<td>
 									<div class="tools">
-										<a onclick="edit(event, this);" data-id="${theme.getId()}" ><i class="fa fa-edit fa-2x"></i> </a>
-										<a onclick="supp(event, this);" data-id="${theme.getId()}"><i class="fa fa-trash-o fa-2x"></i></a>
+										<a onclick="edit(event, this);" data-id="${section.getId()}" ><i class="fa fa-edit fa-2x"></i> </a>
+										<a onclick="supp(event, this);" data-id="${section.getId()}"><i class="fa fa-trash-o fa-2x"></i></a>
 									</div>
 								</td>
 							</tr>
@@ -51,7 +55,7 @@
 <script src="<%= request.getContextPath() %>/js/script.js"></script>
 <script>
 	$(function() {
-		$("#gestionTheme").DataTable();
+		$("#gestionSection").DataTable();
 		//     $('#example2').DataTable({
 		//       "paging": true,
 		//       "lengthChange": false,
