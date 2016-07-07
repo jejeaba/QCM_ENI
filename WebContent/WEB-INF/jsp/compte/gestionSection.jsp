@@ -34,7 +34,7 @@
 							<tr>
 								<td><a href="#">${section.getNom()}</a></td>
 								<td>${section.theme.getNom()}</td>
-								<td>${section.getNb_Questions()}</td>
+								<td>${section.getNb_questions()}</td>
 								<td>${section.getDuree()}</td>
 								<td>
 									<div class="tools">
@@ -52,7 +52,7 @@
 </section>
 
 <%@include file="../footer.jsp"%>
-<script src="<%= request.getContextPath() %>/js/script.js"></script>
+
 <script>
 	$(function() {
 		$("#gestionSection").DataTable();

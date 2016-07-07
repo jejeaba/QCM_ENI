@@ -61,12 +61,17 @@ public class gestionSection extends HttpServlet {
 		DynamicEntities _db = new DynamicEntities();
 		Section section;
 		int idSection;
+		int idTheme;
+		Theme theme;
+		int duree ;
+		int nbQuestion;
 		if("Ajouter".equals(request.getParameter("addSection"))){
 			try {
-				int idTheme = Integer.parseInt(request.getParameter("theme"));
-				Theme theme = _db.set(Theme.class).selectById(idTheme);
-				int duree = Integer.parseInt(request.getParameter("duree"));
-				int nbQuestion = Integer.parseInt(request.getParameter("nbQuestion"));
+				idSection = Integer.parseInt(request.getParameter("idSection"));
+				idTheme = Integer.parseInt(request.getParameter("theme"));
+				duree = Integer.parseInt(request.getParameter("duree"));
+				theme = _db.set(Theme.class).selectById(idTheme);
+				nbQuestion = Integer.parseInt(request.getParameter("nbQuestion"));
 				section = new Section(0,request.getParameter("nomSection"),theme,nbQuestion,duree);
 				_db.set(Section.class).insert(section);
 			} catch (NumberFormatException e) {
@@ -79,11 +84,15 @@ public class gestionSection extends HttpServlet {
 	
 		}else if("Modifier".equals(request.getParameter("editSection"))){
 			idSection = Integer.parseInt(request.getParameter("idSection"));
-			section = new Section();
+			idTheme = Integer.parseInt(request.getParameter("theme"));
+			duree = Integer.parseInt(request.getParameter("duree"));
+			theme = _db.set(Theme.class).selectById(idTheme);
+			nbQuestion = Integer.parseInt(request.getParameter("nbQuestion"));
+			section = new Section(idSection,request.getParameter("nomSection"),theme,nbQuestion,duree);
 			_db.set(Section.class).update(section);
 		}else if("Supprimer".equals(request.getParameter("deleteSection"))){
 			idSection = Integer.parseInt(request.getParameter("idSection"));
-			section = new Section();
+			section = new Section(idSection);
 			Boolean ret = _db.set(Section.class).delete(section);
 		}
 		
@@ -97,4 +106,5 @@ public class gestionSection extends HttpServlet {
 		getServletContext().getRequestDispatcher("/WEB-INF/jsp/compte/gestionSection.jsp").forward(request, response);
 		
 	}
+	
 }

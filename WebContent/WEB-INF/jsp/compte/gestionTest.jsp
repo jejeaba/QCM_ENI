@@ -4,16 +4,16 @@
 <%@include file="../header.jsp"%>
 
 <section class="content-header">
-	<h1>Gestion des Thèmes</h1>
+	<h1>Gestion des Tests</h1>
 </section>
 <script>
-	var title = "Theme";
+	var title = "Test";
 </script>
 <section class="content">
 	<div class="">
 		<button type="button" class="btn btn-info" data-widget="remove"
-			title="Ajouter un Theme" onclick="add(event, this);">Ajouter
-			Theme</button>
+			title="Ajouter un Test" onclick="add(event, this);">Ajouter
+			Test</button>
 		<div class="box">
 			<!-- /.box-header -->
 			<div class="box-body">
@@ -37,7 +37,7 @@
 								<td><a href="#">${test.getNom()}</a></td>
 								<td>${test.listSection.size}</td>
 								<td>${test.listSection.size}</td>
-								<td>${test.getTemps()}</td>
+								<td>?</td>
 								<td>${test.getSeuilAcquis()}</td>
 								<td>${test.getSeuilEnCoursAcquis()}</td>
 								<td>
@@ -56,7 +56,6 @@
 </section>
 
 <%@include file="../footer.jsp"%>
-<script src="<%= request.getContextPath() %>/js/script.js"></script>
 <script>
 	$(function() {
 		$("#gestionTest").DataTable();
@@ -72,6 +71,5 @@
 // 			  placeholder: "Responsable de formation",
 // 			allowClear: true
 // 			});
-		
 	});
 </script>

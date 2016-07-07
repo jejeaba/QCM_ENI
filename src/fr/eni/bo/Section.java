@@ -5,6 +5,7 @@ package fr.eni.bo;
 
 import fr.eni.annotations.JoinColumn;
 import fr.eni.annotations.ManyToOne;
+import fr.eni.annotations.PrimaryKey;
 
 /**
  * @author Administrateur
@@ -12,6 +13,7 @@ import fr.eni.annotations.ManyToOne;
  * @version QCM - V1.0
  */
 public class Section {
+	@PrimaryKey
 	private int id;
 	private String nom;
 	@ManyToOne()
@@ -23,16 +25,6 @@ public class Section {
 	 * Constructeur.
 	 */
 	public Section() {}
-	/**
-	 * Constructeur.
-	 * @param id
-	 * @param numeroSection
-	 * @param nbQuestion
-	 */
-	public Section(int id, int numeroSection, int nb_questions) {
-		this.id = id;
-		this.nb_questions = nb_questions;
-	}
 	
 	/**
 	 * Constructeur .
@@ -43,13 +35,22 @@ public class Section {
 	 * @param duree
 	 */
 	public Section(int id, String nom, Theme theme, int nb_questions, int duree) {
-		super();
-		this.id = id;
+		this(id);
 		this.nom = nom;
 		this.theme = theme;
 		this.nb_questions = nb_questions;
 		this.duree = duree;
 	}
+	
+	/**
+	 * Constructeur .
+	 * @param id
+	 */
+	public Section(int id) {
+		super();
+		this.id = id;
+	}
+
 	/**
 	 * Getter pour id.
 	 * @return the id
@@ -69,14 +70,14 @@ public class Section {
 	 * Getter pour nbQuestion.
 	 * @return the nbQuestion
 	 */
-	public int getNb_Questions() {
+	public int getNb_questions() {
 		return nb_questions;
 	}
 	/**
 	 * Setter pour nbQuestion 
 	 * @param nbQuestion the nbQuestion to set
 	 */
-	public void setNb_Questions(int nb_questions) {
+	public void setNb_questions(int nb_questions) {
 		this.nb_questions = nb_questions;
 	}
 	/**
