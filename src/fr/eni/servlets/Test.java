@@ -13,6 +13,7 @@ import fr.eni.bo.Formation;
 import fr.eni.bo.Question;
 import fr.eni.bo.Theme;
 import fr.eni.utils.DynamicEntities;
+import fr.eni.utils.DynamicEntities2;
 import fr.eni.utils.QueryBuilder;
 import fr.eni.utils.QueryCreator;
 
@@ -34,7 +35,11 @@ public class Test extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		QueryBuilder.select(Question.class);
+		
+		DynamicEntities2 _db = new DynamicEntities2();
+		Question question = _db.set(Question.class).selectById(3);
+		//_db.insert(questions.get(0));
+		int i = 0;
 		/*
 		DynamicEntities _db = new DynamicEntities(Theme.class);
 		try {

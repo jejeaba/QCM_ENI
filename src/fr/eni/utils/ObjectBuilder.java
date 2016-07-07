@@ -5,6 +5,7 @@ package fr.eni.utils;
 
 import java.lang.reflect.Field;
 import java.sql.ResultSet;
+import java.util.HashMap;
 
 import fr.eni.annotations.JoinColumn;
 import fr.eni.annotations.ManyToOne;
@@ -17,19 +18,21 @@ import fr.eni.annotations.ManyToOne;
  */
 public class ObjectBuilder {
 
-	public static <T> T rs2Object(Class<T> classe, ResultSet rs){
-		Field[] fields = classe.getFields();
+	public static <T> T rs2Object(Class<T> classe, HashMap<String,HashMap<String,Object>> data){
+		Field[] fields = classe.getDeclaredFields();
+		String alias = QueryBuilder.getAlias(classe);
 		try {
+			HashMap<String,Object> dataObject = data.get(alias);
 			T object = classe.newInstance();
 			for (Field field : fields) {
 				field.setAccessible(true);
 				if(field.isAnnotationPresent(ManyToOne.class)){
+					Class elementClass = field.getType();
 					String dataBaseFieldName = field.getAnnotation(JoinColumn.class).name();
-					//field.set(object, rs.getObject(dataBaseFieldName));
-				}else if(field.isAnnotationPresent(ManyToOne.class)){
-					
+					field.set(object,rs2Object(elementClass, data));
+				}else if(field.isAnnotationPresent(ManyToOne.class)){					
 				}else{
-					field.set(object, rs.getObject(field.getName()));
+					field.set(object, dataObject.get(field.getName()));
 				}
 			}
 			return object;
