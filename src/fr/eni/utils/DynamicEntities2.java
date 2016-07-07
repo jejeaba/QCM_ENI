@@ -71,6 +71,7 @@ public class DynamicEntities2 {
 		PreparedStatement cmd = null;
 		try {
 			cmd = DBAcces.getConnection().prepareStatement(query);
+			prepareForSelect(cmd, args);
 			LOGGER.info(String.format("Execution de la requête SELECT : %1s.", query));
 			ResultSet rs = cmd.executeQuery();
 			return convertListToObjects(this.entity, convertResultSetToList(rs), null, null, true);
@@ -86,6 +87,15 @@ public class DynamicEntities2 {
 			}
 			cmd = null;
 		}	
+	}
+	
+	private <T> PreparedStatement prepareForSelect(PreparedStatement ps, Parameter...args) throws Exception{
+		int i = 1;
+		for (Parameter arg : args) {
+			ps.setObject(1, arg.getValue());
+			i++;
+		}
+		return ps;
 	}
 	
 	public <T> T insert(T object){
