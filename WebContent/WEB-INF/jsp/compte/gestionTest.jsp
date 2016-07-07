@@ -4,38 +4,46 @@
 <%@include file="../header.jsp"%>
 
 <section class="content-header">
-	<h1>Gestion des Thèmes</h1>
+	<h1>Gestion des Tests</h1>
 </section>
 <script>
-	var title = "Theme";
+	var title = "Test";
 </script>
 <section class="content">
-	<div class="contnaier">
+	<div class="">
 		<button type="button" class="btn btn-info" data-widget="remove"
-			title="Ajouter un Theme" onclick="add(event, this);">Ajouter
-			Theme</button>
+			title="Ajouter un Test" onclick="add(event, this);">Ajouter
+			Test</button>
 		<div class="box">
 			<!-- /.box-header -->
 			<div class="box-body">
-				<table id="gestionTheme"
+				<table id="gestionTest"
 					class="table table-bordered table-striped">
 					<thead>
 						<tr>
-							<th>Nom du theme</th>
-							<th>Nombre de questions</th>
+							<th>Nom du test</th>
+							<th>Nombre de section</th>
+							<th>Nombre de question</th>
+							<th>Durée en minute</th>
+							<th>Seuil acquis en %</th>
+							<th>Seuil en cours d'acquisition en %</th>
 							<th>Actions</th>
 						</tr>
 					</thead>
 					<tbody>
 
-						<c:forEach items="${listeThemes}" var="theme">
+						<c:forEach items="${listeTests}" var="test">
 							<tr>
-								<td><a href="#">${theme.getNom()}</a></td>
-								<td>${theme.listQuestion.size}</td>
+								<td><a href="#">${test.getNom()}</a></td>
+								<td>${test.listSection.size}</td>
+								<td>${test.listSection.size}</td>
+								<td>?</td>
+								<td>${test.getSeuilAcquis()}</td>
+								<td>${test.getSeuilEnCoursAcquis()}</td>
 								<td>
 									<div class="tools">
-										<a onclick="edit(event, this);" data-id="${theme.getId()}" ><i class="fa fa-edit fa-2x"></i> </a>
-										<a onclick="supp(event, this);" data-id="${theme.getId()}"><i class="fa fa-trash-o fa-2x"></i></a>
+										<a onclick="edit(event, this);" data-id="${test.getId()}" ><i class="fa fa-edit fa-2x"></i> </a>
+										<a onclick="supp(event, this);" data-id="${test.getId()}"><i class="fa fa-trash-o fa-2x"></i></a>
 									</div>
 								</td>
 							</tr>
@@ -50,7 +58,7 @@
 <%@include file="../footer.jsp"%>
 <script>
 	$(function() {
-		$("#gestionTheme").DataTable();
+		$("#gestionTest").DataTable();
 		//     $('#example2').DataTable({
 		//       "paging": true,
 		//       "lengthChange": false,
@@ -63,6 +71,5 @@
 // 			  placeholder: "Responsable de formation",
 // 			allowClear: true
 // 			});
-		
 	});
 </script>

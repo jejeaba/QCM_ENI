@@ -6,6 +6,7 @@ package fr.eni.bo;
 import java.util.ArrayList;
 import java.util.List;
 
+import fr.eni.annotations.JoinColumn;
 import fr.eni.annotations.OneToMany;
 import fr.eni.annotations.PrimaryKey;
 import fr.eni.utils.DE;
@@ -20,6 +21,7 @@ public class Theme {
 	private int id;
 	private String nom;
 	@OneToMany
+	@JoinColumn(name="THEME_id")
 	private List<Question> listQuestion = new ArrayList<Question>();
 	
 	/**
@@ -32,21 +34,22 @@ public class Theme {
 	 * @param nom
 	 * @param listQuestion
 	 */
-	public Theme(int id, String nom, List<Question> listQuestion){
+	public Theme(int id, String nom, List<Question> listQuestion) {
+		this(id,nom);
 		this.listQuestion = listQuestion;
 	}
+	
+
 	/**
-	 * 
 	 * Constructeur .
 	 * @param id
 	 * @param nom
 	 */
 	public Theme(int id, String nom) {
+		super();
 		this.id = id;
 		this.nom = nom;
-		this.listQuestion = listQuestion;
 	}
-	
 	private void addQuestion(Question question){
 		this.listQuestion.add(question);
 	}

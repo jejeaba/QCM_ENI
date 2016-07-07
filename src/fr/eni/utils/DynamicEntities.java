@@ -332,18 +332,49 @@ public class DynamicEntities {
 	}
 	
 	public <T> boolean update(T obj) throws Exception{
+		Class classe = obj.getClass();
 		String entityName = obj.getClass().getSimpleName();
 		PreparedStatement cmd = null;
 		String primaryKeyName = ReflexionUtils.getPrimaryKeyName(obj);
 		Object primaryKey = ReflexionUtils.getPrimary(obj);
+		List<String> dataBaseFields = this.getDataBaseFields(classe,false);
+		List<String> dataBaseFieldsAndNull = this.getDataBaseFieldsAndNull(classe,false);
+		List<String> fields = this.getFields(classe,false);
 		StringBuilder sbQuery = new StringBuilder();
 		sbQuery.append("UPDATE ");
-		sbQuery.append(entityName.toUpperCase());	
+		sbQuery.append(entityName.toUpperCase());
+		sbQuery.append(" SET ");
+		List<String> setQuery = new ArrayList<String>();
+		for (String dataBaseField : dataBaseFields) {
+			setQuery.add(dataBaseField + " = ?");
+		}
+		sbQuery.append(StringUtils.join(setQuery, ", "));
 		sbQuery.append(" WHERE ").append(primaryKeyName).append(" = ?");
 		String query = sbQuery.toString();
 		try {
 			cmd = DBAcces.getConnection().prepareStatement(query);
-			cmd.setObject(1, primaryKey);
+			int i = 0, j = 1;
+			for (String field : fields) {
+				Method method = this.getMethod(classe,field);
+				String dataBaseFieldName = dataBaseFieldsAndNull.toArray()[i] != null ? dataBaseFieldsAndNull.toArray()[i].toString() : null;
+				if(field.equals(dataBaseFieldName)){
+					Object o = method.invoke(obj);
+					cmd.setObject(j, o);
+					j++;
+				}else{
+					Object o = method.invoke(obj);
+					if(o != null){
+						Class c = o.getClass();
+						if(!Collection.class.isAssignableFrom(c) && !ClassUtils.isPrimitiveOrWrapper(c) && !c.equals(String.class)){
+							Object primary = ReflexionUtils.getPrimary(o);
+							cmd.setObject(j, primary);
+							j++;
+						}
+					}					
+				}
+				i++;
+			}
+			cmd.setObject(j, ReflexionUtils.getPrimary(obj));
 			cmd.executeUpdate();
 			return true;
 		} catch (SQLException e) {

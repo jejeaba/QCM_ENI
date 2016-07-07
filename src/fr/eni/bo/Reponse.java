@@ -3,6 +3,8 @@
  */
 package fr.eni.bo;
 
+import fr.eni.annotations.JoinColumn;
+import fr.eni.annotations.ManyToOne;
 import fr.eni.annotations.PrimaryKey;
 
 /**
@@ -15,6 +17,9 @@ public class Reponse {
 	private int id;
 	private String libelle;
 	private boolean correct;
+	@ManyToOne()
+	@JoinColumn(name="QUESTION_id")
+	private Question question;
 	
 	/**
 	 * Constructeur par default.

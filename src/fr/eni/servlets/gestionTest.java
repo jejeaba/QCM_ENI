@@ -1,6 +1,7 @@
 package fr.eni.servlets;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.servlet.ServletException;
@@ -8,20 +9,20 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-
-import fr.eni.bo.Theme;
+import fr.eni.bo.Section;
+import fr.eni.bo.Test;
 import fr.eni.utils.DynamicEntities;
 
 /**
  * Servlet implementation class accueil
  */
-public class gestionTheme extends HttpServlet {
+public class gestionTest extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public gestionTheme() {
+    public gestionTest() {
         super();
         // TODO Auto-generated constructor stub
     }
@@ -59,12 +60,26 @@ public class gestionTheme extends HttpServlet {
 	private void processRequest(HttpServletRequest request,
 			HttpServletResponse response) throws Exception {
 		DynamicEntities _db = new DynamicEntities();
-		Theme theme;
-		int idTheme;
-		if("Ajouter".equals(request.getParameter("addTheme"))){
+		Test test;
+		Section section;
+		String nomTest;
+		int seuilAcquis;
+		int seuilEnCoursAcquis;
+		int idTest;
+		if("Ajouter".equals(request.getParameter("addTest"))){
 			try {
-				theme = new Theme(0,request.getParameter("nomTheme"));
-				_db.set(Theme.class).insert(theme);
+				nomTest = request.getParameter("nomTest");
+				seuilAcquis = Integer.parseInt(request.getParameter("seuilAcquis"));
+				seuilEnCoursAcquis = Integer.parseInt(request.getParameter("seuilEnCoursAcquis"));
+				List<Section> listeSections= new ArrayList<Section>() ;
+				String[] tabSectionIds = request.getParameterValues("listeSections");
+				for (String tabSectionId : tabSectionIds) {
+					section = _db.set(Section.class).selectById(Integer.parseInt(tabSectionId));
+					listeSections.add(section);
+				}
+				
+				test = new Test(0,nomTest,seuilAcquis,seuilEnCoursAcquis,listeSections);
+				_db.set(Test.class).insert(test);
 			} catch (NumberFormatException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
@@ -73,24 +88,24 @@ public class gestionTheme extends HttpServlet {
 				e.printStackTrace();
 			}
 	
-		}else if("Modifier".equals(request.getParameter("editTheme"))){
-			idTheme = Integer.parseInt(request.getParameter("idTheme"));
-			theme = new Theme(idTheme,request.getParameter("nomTheme"));
-			_db.set(Theme.class).update(theme);
-		}else if("Supprimer".equals(request.getParameter("deleteTheme"))){
-			idTheme = Integer.parseInt(request.getParameter("idTheme"));
-			theme = new Theme(idTheme,"");
-			Boolean ret = _db.set(Theme.class).delete(theme);
+		}else if("Modifier".equals(request.getParameter("editTest"))){
+			idTest = Integer.parseInt(request.getParameter("idTest"));
+			test = new Test();
+			_db.set(Test.class).update(test);
+		}else if("Supprimer".equals(request.getParameter("deleteTest"))){
+			idTest = Integer.parseInt(request.getParameter("idTest"));
+			test = new Test(idTest);
+			Boolean ret = _db.set(Test.class).delete(test);
 		}
 		
 		try {
-			List<Theme> listeThemes = _db.set(Theme.class).selectAll(); 
-			request.setAttribute("listeThemes",listeThemes );
+			List<Test> listeTests = _db.set(Test.class).selectAll(); 
+			request.setAttribute("listeTests",listeTests );
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		getServletContext().getRequestDispatcher("/WEB-INF/jsp/compte/gestionTheme.jsp").forward(request, response);
+		getServletContext().getRequestDispatcher("/WEB-INF/jsp/compte/gestionTest.jsp").forward(request, response);
 		
 	}
 }

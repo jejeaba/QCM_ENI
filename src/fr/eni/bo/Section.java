@@ -3,30 +3,54 @@
  */
 package fr.eni.bo;
 
+import fr.eni.annotations.JoinColumn;
+import fr.eni.annotations.ManyToOne;
+import fr.eni.annotations.PrimaryKey;
+
 /**
  * @author Administrateur
  * @date 4 juil. 2016
  * @version QCM - V1.0
  */
 public class Section {
+	@PrimaryKey
 	private int id;
-	private int numeroSection;
-	private int nbQuestion;
+	private String nom;
+	@ManyToOne()
+	@JoinColumn(name="THEME_id")
+	private Theme theme;
+	private int nb_questions;
+	private int duree;
 	/**
 	 * Constructeur.
 	 */
 	public Section() {}
+	
 	/**
-	 * Constructeur.
+	 * Constructeur .
 	 * @param id
-	 * @param numeroSection
+	 * @param nom
+	 * @param theme
 	 * @param nbQuestion
+	 * @param duree
 	 */
-	public Section(int id, int numeroSection, int nbQuestion) {
-		this.id = id;
-		this.numeroSection = numeroSection;
-		this.nbQuestion = nbQuestion;
+	public Section(int id, String nom, Theme theme, int nb_questions, int duree) {
+		this(id);
+		this.nom = nom;
+		this.theme = theme;
+		this.nb_questions = nb_questions;
+		this.duree = duree;
 	}
+	
+	/**
+	 * Constructeur .
+	 * @param id
+	 */
+	public Section(int id) {
+		super();
+		this.id = id;
+	}
+
 	/**
 	 * Getter pour id.
 	 * @return the id
@@ -41,33 +65,62 @@ public class Section {
 	public void setId(int id) {
 		this.id = id;
 	}
-	/**
-	 * Getter pour numeroSection.
-	 * @return the numeroSection
-	 */
-	public int getNumeroSection() {
-		return numeroSection;
-	}
-	/**
-	 * Setter pour numeroSection 
-	 * @param numeroSection the numeroSection to set
-	 */
-	public void setNumeroSection(int numeroSection) {
-		this.numeroSection = numeroSection;
-	}
+	
 	/**
 	 * Getter pour nbQuestion.
 	 * @return the nbQuestion
 	 */
-	public int getNbQuestion() {
-		return nbQuestion;
+	public int getNb_questions() {
+		return nb_questions;
 	}
 	/**
 	 * Setter pour nbQuestion 
 	 * @param nbQuestion the nbQuestion to set
 	 */
-	public void setNbQuestion(int nbQuestion) {
-		this.nbQuestion = nbQuestion;
+	public void setNb_questions(int nb_questions) {
+		this.nb_questions = nb_questions;
+	}
+	/**
+	 * Getter pour nom.
+	 * @return the nom
+	 */
+	public String getNom() {
+		return nom;
+	}
+	/**
+	 * Setter pour nom.
+	 * @param nom the nom to set
+	 */
+	public void setNom(String nom) {
+		this.nom = nom;
+	}
+	/**
+	 * Getter pour theme.
+	 * @return the theme
+	 */
+	public Theme getTheme() {
+		return theme;
+	}
+	/**
+	 * Setter pour theme.
+	 * @param theme the theme to set
+	 */
+	public void setTheme(Theme theme) {
+		this.theme = theme;
+	}
+	/**
+	 * Getter pour duree.
+	 * @return the duree
+	 */
+	public int getDuree() {
+		return duree;
+	}
+	/**
+	 * Setter pour duree.
+	 * @param duree the duree to set
+	 */
+	public void setDuree(int duree) {
+		this.duree = duree;
 	}
 	
 	

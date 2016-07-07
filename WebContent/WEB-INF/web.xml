@@ -120,6 +120,36 @@
   </servlet-mapping>
   <servlet>
     <description></description>
+    <display-name>viewTest</display-name>
+    <servlet-name>viewTest</servlet-name>
+    <servlet-class>fr.eni.servlets.viewTest</servlet-class>
+  </servlet>
+  <servlet-mapping>
+  <servlet-name>viewTest</servlet-name>
+    <url-pattern>/admin/viewTest</url-pattern>
+  </servlet-mapping>
+    <servlet>
+    <description></description>
+    <display-name>gestionTest</display-name>
+    <servlet-name>gestionTest</servlet-name>
+    <servlet-class>fr.eni.servlets.gestionTest</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>gestionTest</servlet-name>
+    <url-pattern>/admin/gestionTest</url-pattern>
+  </servlet-mapping>
+    <servlet>
+    <description></description>
+    <display-name>viewSection</display-name>
+    <servlet-name>viewSection</servlet-name>
+    <servlet-class>fr.eni.servlets.viewSection</servlet-class>
+  </servlet>
+  <servlet-mapping>
+  <servlet-name>viewSection</servlet-name>
+    <url-pattern>/admin/viewSection</url-pattern>
+  </servlet-mapping>
+    <servlet>
+    <description></description>
     <display-name>gestionSection</display-name>
     <servlet-name>gestionSection</servlet-name>
     <servlet-class>fr.eni.servlets.gestionSection</servlet-class>

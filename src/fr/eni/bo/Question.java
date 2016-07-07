@@ -27,6 +27,7 @@ public class Question {
 	private boolean type;
 	private String image;
 	@OneToMany()
+	@JoinColumn(name="QUESTION_id")
 	private List<Reponse> listReponse = new ArrayList<Reponse>();
 	/**
 	 * Constructeur.
