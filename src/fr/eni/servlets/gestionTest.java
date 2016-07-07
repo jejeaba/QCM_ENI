@@ -65,7 +65,7 @@ public class gestionTest extends HttpServlet {
 	private void processRequest(HttpServletRequest request,
 			HttpServletResponse response) throws Exception {
 		DynamicEntities _db = new DynamicEntities();
-		DynamicEntities2 _db2 = new DynamicEntities2();
+		//DynamicEntities2 _db2 = new DynamicEntities2();
 		Test test;
 		Section section;
 		String nomTest;

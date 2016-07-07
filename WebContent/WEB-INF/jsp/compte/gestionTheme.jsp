@@ -43,7 +43,7 @@
 
 						<c:forEach items="${listeThemes}" var="theme">
 							<tr>
-								<td><a href="#">${theme.getNom()}</a></td>
+								<td><a onclick="edit(event, this);" data-id="${section.getId()}">${theme.getNom()}</a></td>
 								<td>${theme.listQuestion.size()}</td>
 								<td>
 									<div class="tools">

@@ -35,7 +35,7 @@
 					class="table table-bordered table-striped">
 					<thead>
 						<tr>
-							<th>Enoncer</th>
+							<th>Enoncé</th>
 							<th>Theme</th>
 							<th>Type</th>
 							<th>Actions</th>
@@ -45,7 +45,7 @@
 
 						<c:forEach items="${listeQuestions}" var="question">
 							<tr>
-								<td><a href="#">${question.getEnonce()}</a></td>
+								<td><a onclick="edit(event, this, BootstrapDialog.SIZE_NORMAL);" data-id="${question.getId()}" >${question.getEnonce()}</a></td>
 								<td>${question.theme.getNom()}</td>
 								<td>${question.getTypeFormat()}</td>
 								<td>

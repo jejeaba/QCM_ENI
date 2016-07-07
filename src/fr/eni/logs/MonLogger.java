@@ -21,7 +21,7 @@ public class MonLogger
 		
 		FileHandler fh = null;
 		try {
-			fh = new FileHandler("C:/Users/administrateur/Desktop/qcm_eni.log",200,3);
+			fh = new FileHandler("C:/Users/administrateur/Desktop/logs/qcm_eni.log",200,3);
 		} catch (SecurityException e) {
 			e.printStackTrace();
 		} catch (IOException e) {

@@ -47,7 +47,7 @@
 
 						<c:forEach items="${listeTests}" var="test">
 							<tr>
-								<td><a href="#">${test.getNom()}</a></td>
+								<td><a onclick="edit(event, this);" data-id="${section.getId()}">${test.getNom()}</a></td>
 								<td>${test.listSection.size()}</td>
 								<td>${test.listSection.size()}</td>
 								<td>?</td>

@@ -43,7 +43,7 @@
 
 						<c:forEach items="${listeFormations}" var="formation">
 							<tr>
-								<td><a href="#">${formation.getNom()}</a></td>
+								<td><a onclick="edit(event, this);" data-id="${section.getId()}">${formation.getNom()}</a></td>
 								<td>${formation.responsable.getNom()} ${formation.responsable.getPrenom()}</td>
 								<td>
 									<div class="tools">

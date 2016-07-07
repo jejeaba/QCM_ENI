@@ -45,7 +45,7 @@
 
 						<c:forEach items="${listeSections}" var="section">
 							<tr>
-								<td><a href="#">${section.getNom()}</a></td>
+								<td><a onclick="edit(event, this);" data-id="${section.getId()}">${section.getNom()}</a></td>
 								<td>${section.theme.getNom()}</td>
 								<td>${section.getNb_questions()}</td>
 								<td>${section.getDuree()}</td>
