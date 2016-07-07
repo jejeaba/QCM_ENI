@@ -75,7 +75,7 @@
                   <a href="#" class="btn btn-default btn-flat">Profile</a>
                 </div>
                 <div class="pull-right">
-                  <a href="#" class="btn btn-default btn-flat">Sign out</a>
+                  <a href="<%= request.getContextPath() %>/admin/deconnection" class="btn btn-default btn-flat">Deconnection</a>
                 </div>
               </li>
             </ul>
