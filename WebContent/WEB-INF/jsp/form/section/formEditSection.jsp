@@ -21,7 +21,7 @@
       </select>
     </div>
     <div class="form-group">
-      <input type="number" class="form-control" name="nbQuestion" placeholder="Nombre de question" required="required" value="${section.getNb_Questions() }">
+      <input type="number" class="form-control" name="nbQuestion" placeholder="Nombre de question" required="required" value="${section.getNb_questions() }">
     </div>
     <div class="form-group">
       <input type="number" class="form-control" name="duree" placeholder="Durée en minute" required="required" value="${section.getDuree() }">

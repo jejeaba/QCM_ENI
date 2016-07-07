@@ -45,26 +45,29 @@ public class viewSection extends HttpServlet {
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		int idSection = Integer.parseInt(request.getParameter("id"));
 		DynamicEntities _db = new DynamicEntities();
-		
+		List<Theme> listeThemes;
 		Section section;
-//		try {
-//			section = _db.set(Section.class).selectById(idSection);
-//			request.setAttribute("section",section );
-//		} catch (Exception e) {
-//			// TODO Auto-generated catch block
-//			e.printStackTrace();
-//		}
+		try {
+			listeThemes = _db.set(Theme.class).selectAll();
+			request.setAttribute("listeThemes", listeThemes);
+			section = _db.set(Section.class).selectById(idSection);
+			request.setAttribute("section",section );
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
 		if ("edit".equals(request.getParameter("action"))){
 			
-			getServletContext().getRequestDispatcher("/WEB-INF/jsp/form/theme/formEditSection.jsp").forward(request, response);
+			getServletContext().getRequestDispatcher("/WEB-INF/jsp/form/section/formEditSection.jsp").forward(request, response);
 			return;
 		}else if ("delete".equals(request.getParameter("action"))){
 			
-			getServletContext().getRequestDispatcher("/WEB-INF/jsp/form/theme/formDeleteSection.jsp").forward(request, response);
+			getServletContext().getRequestDispatcher("/WEB-INF/jsp/form/section/formDeleteSection.jsp").forward(request, response);
 			return;
 		}else if ("add".equals(request.getParameter("action"))){
-			
-			getServletContext().getRequestDispatcher("/WEB-INF/jsp/form/theme/formAddSection.jsp").forward(request, response);
+
+			getServletContext().getRequestDispatcher("/WEB-INF/jsp/form/section/formAddSection.jsp").forward(request, response);
 			return; 	
 		}
 	}

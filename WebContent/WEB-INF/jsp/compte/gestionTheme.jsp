@@ -48,7 +48,6 @@
 </section>
 
 <%@include file="../footer.jsp"%>
-<script src="<%= request.getContextPath() %>/js/script.js"></script>
 <script>
 	$(function() {
 		$("#gestionTheme").DataTable();
