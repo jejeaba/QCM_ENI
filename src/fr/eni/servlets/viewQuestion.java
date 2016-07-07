@@ -13,6 +13,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 
+
 import fr.eni.bo.Question;
 import fr.eni.bo.Theme;
 import fr.eni.utils.DynamicEntities;
@@ -54,8 +55,8 @@ public class viewQuestion extends HttpServlet {
 			try {
 				question = _db.set(Question.class).selectById(idQuestion);
 				listeThemes = _db.set(Theme.class).selectAll();
-				request.setAttribute("listeFormateurs", listeThemes);
-				request.setAttribute("question",question );
+				request.setAttribute("listeThemes", listeThemes);
+				request.setAttribute("question", question);
 			} catch (Exception e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
@@ -63,11 +64,17 @@ public class viewQuestion extends HttpServlet {
 			getServletContext().getRequestDispatcher("/WEB-INF/jsp/form/question/formEditQuestion.jsp").forward(request, response);
 			return;
 		}else if ("delete".equals(request.getParameter("action"))){
-			
+			idQuestion = Integer.parseInt(request.getParameter("id"));
+			try {
+				question = _db.set(Question.class).selectById(idQuestion);
+				request.setAttribute("question",question );
+			} catch (Exception e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 			getServletContext().getRequestDispatcher("/WEB-INF/jsp/form/question/formDeleteQuestion.jsp").forward(request, response);
 			return;
 		}else if ("add".equals(request.getParameter("action"))){
-			
 			try {
 				listeThemes = _db.set(Theme.class).selectAll();
 				request.setAttribute("listeThemes", listeThemes);
@@ -75,7 +82,6 @@ public class viewQuestion extends HttpServlet {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
-
 			getServletContext().getRequestDispatcher("/WEB-INF/jsp/form/question/formAddQuestion.jsp").forward(request, response);
 			return; 	
 		}

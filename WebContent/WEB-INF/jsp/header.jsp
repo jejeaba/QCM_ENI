@@ -108,12 +108,12 @@
 
       <!-- Sidebar Menu -->
       <ul class="sidebar-menu">
-        <li class="active"><a href="#"><i class="fa fa-users"></i> <span>Candidats</span></a></li>
-        <li><a href="#"><i class="fa fa-link"></i> <span>Formations</span></a></li>
-        <li><a href="#"><i class="fa fa-check"></i> <span>Tests</span></a></li>
-        <li><a href="#"><i class="fa fa-pie-chart"></i> <span>Sections</span></a></li>
-        <li><a href="#"><i class="fa fa-tags"></i> <span>Thèmes</span></a></li>
-        <li><a href="#"><i class="fa fa-question"></i> <span>Questions</span></a></li>
+        <li><a href="<%= request.getContextPath() %>/admin/gestionCandidat"><i class="fa fa-users"></i> <span>Candidats</span></a></li>
+        <li><a href="<%= request.getContextPath() %>/admin/gestionFormation"><i class="fa fa-link"></i> <span>Formations</span></a></li>
+        <li><a href="<%= request.getContextPath() %>/admin/gestionTest"><i class="fa fa-check"></i> <span>Tests</span></a></li>
+        <li><a href="<%= request.getContextPath() %>/admin/gestionSection"><i class="fa fa-pie-chart"></i> <span>Sections</span></a></li>
+        <li><a href="<%= request.getContextPath() %>/admin/gestionTheme"><i class="fa fa-tags"></i> <span>Thèmes</span></a></li>
+        <li><a href="<%= request.getContextPath() %>/admin/gestionQuestion"><i class="fa fa-question"></i> <span>Questions</span></a></li>
         
       </ul>
       <!-- /.sidebar-menu -->

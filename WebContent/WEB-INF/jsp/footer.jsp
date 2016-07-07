@@ -46,9 +46,13 @@
 <script src="<%= request.getContextPath() %>/plugins/datatables/jquery.dataTables.min.js"></script>
 <script src="<%= request.getContextPath() %>/plugins/datatables/dataTables.bootstrap.min.js"></script>
 <script src="<%= request.getContextPath() %>/js/script.js"></script>
-<!-- Optionally, you can add Slimscroll and FastClick plugins.
-     Both of these plugins are recommended to enhance the
-     user experience. Slimscroll is required when using the
-     fixed layout. -->
+
+<script type="text/javascript">
+$(document).ready(function() {
+	var pathname = window.location.pathname;
+	$('.sidebar-menu > li > a[href="'+pathname+'"]').parent().addClass('active');
+})
+</script>
+
 </body>
 </html>
