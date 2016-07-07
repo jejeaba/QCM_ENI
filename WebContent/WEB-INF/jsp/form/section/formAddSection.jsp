@@ -19,6 +19,6 @@
     <div class="form-group">
       <input type="number" class="form-control" name="duree" placeholder="Durée en minute" required="required">
     </div>
-    <input type="submit" name="addSection" value="Ajouter">
+    <input type="submit" class="btn btn-success btn-block" name="addSection" value="Ajouter">
   </form>
 </div>

@@ -26,6 +26,6 @@
     <div class="form-group">
       <input type="number" class="form-control" name="duree" placeholder="Durée en minute" required="required" value="${section.getDuree() }">
     </div>
-	<input class="btn btn-primary" type="submit" name="editSection" value="Modifier">
+	<input class="btn btn-success btn-block" type="submit" name="editSection" value="Modifier">
   </form>
 </div>

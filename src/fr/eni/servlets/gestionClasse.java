@@ -1,10 +1,14 @@
 package fr.eni.servlets;
 
 import java.io.IOException;
+
+import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+
+import fr.eni.utils.GestionErreur;
 
 /**
  * Servlet implementation class accueil
@@ -24,9 +28,27 @@ public class gestionClasse extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		processRequest(request, response);
+		try {
+			processRequest(request, response);
+		} catch (Exception e) {
+			e.printStackTrace();
+			GestionErreur.redirectionErreur(e, request, response);
+			return;
+		}
 	}
 
+	/**
+	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
+	 */
+	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		try {
+			processRequest(request, response);
+		} catch (Exception e) {
+			e.printStackTrace();
+			GestionErreur.redirectionErreur(e, request, response);
+			return;
+		}
+	}
 	/**
 	 * Methode en charge de .
 	 * @param request
@@ -38,13 +60,6 @@ public class gestionClasse extends HttpServlet {
 			HttpServletResponse response) throws ServletException, IOException {
 		getServletContext().getRequestDispatcher("/WEB-INF/jsp/compte/gestionClasse.jsp").forward(request, response);
 		
-	}
-
-	/**
-	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
-	 */
-	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		processRequest(request, response);
 	}
 
 }

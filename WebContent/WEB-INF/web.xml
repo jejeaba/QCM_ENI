@@ -2,7 +2,11 @@
 <web-app xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://java.sun.com/xml/ns/javaee" xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd" id="WebApp_ID" version="2.5">
   <display-name>QCM_ENI</display-name>
   <welcome-file-list>
-    <welcome-file>/login</welcome-file>
+    <welcome-file>index.html</welcome-file>
+    <welcome-file>index.htm</welcome-file>
+    <welcome-file>index.jsp</welcome-file>
+    <welcome-file>default.html</welcome-file>
+    <welcome-file>default.htm</welcome-file>
   </welcome-file-list>
   <servlet>
     <description></description>
@@ -33,6 +37,7 @@
     <servlet-name>Login</servlet-name>
     <url-pattern>/login</url-pattern>
   </servlet-mapping>
+
   <servlet>
     <description></description>
     <display-name>Inscription</display-name>
@@ -83,7 +88,7 @@
     <servlet-name>viewTheme</servlet-name>
     <url-pattern>/admin/viewTheme</url-pattern>
   </servlet-mapping>
-    <servlet>
+  <servlet>
     <description></description>
     <display-name>gestionTheme</display-name>
     <servlet-name>gestionTheme</servlet-name>
@@ -93,7 +98,7 @@
     <servlet-name>gestionTheme</servlet-name>
     <url-pattern>/admin/gestionTheme</url-pattern>
   </servlet-mapping>
-    <servlet>
+  <servlet>
     <description></description>
     <display-name>viewQuestion</display-name>
     <servlet-name>viewQuestion</servlet-name>
@@ -103,7 +108,7 @@
     <servlet-name>viewQuestion</servlet-name>
     <url-pattern>/admin/viewQuestion</url-pattern>
   </servlet-mapping>
-    <servlet>
+  <servlet>
     <description></description>
     <display-name>gestionQuestion</display-name>
     <servlet-name>gestionQuestion</servlet-name>

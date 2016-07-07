@@ -15,6 +15,7 @@ import javax.servlet.http.HttpServletResponse;
 import fr.eni.bo.Section;
 import fr.eni.dal.DBAcces;
 import fr.eni.utils.DynamicEntities;
+import fr.eni.utils.GestionErreur;
 
 /**
  * Servlet implementation class viewEditFormation
@@ -34,27 +35,45 @@ public class viewTest extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		// TODO Auto-generated method stub
-		response.getWriter().append("Served at: ").append(request.getContextPath());
+		try {
+			processRequest(request, response);
+		} catch (Exception e) {
+			e.printStackTrace();
+			GestionErreur.redirectionErreur(e, request, response);
+			return;
+		}
 	}
 
 	/**
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		try {
+			processRequest(request, response);
+		} catch (Exception e) {
+			e.printStackTrace();
+			GestionErreur.redirectionErreur(e, request, response);
+			return;
+		}
+		
+	}
+
+	/**
+	 * Methode en charge de .
+	 * @param request
+	 * @param response
+	 * @throws Exception 
+	 */
+	private void processRequest(HttpServletRequest request, HttpServletResponse response) throws Exception {
 		int idTest = Integer.parseInt(request.getParameter("id"));
 		DynamicEntities _db = new DynamicEntities();
 		List<Section> listeSections;
 		Test test;
-		try {
-			listeSections = _db.set(Section.class).selectAll();
-			request.setAttribute("listeSections", listeSections);
-			//test = _db.set(Test.class).selectById(idTest);
-			//request.setAttribute("test",test );
-		} catch (Exception e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+		listeSections = _db.set(Section.class).selectAll();
+		request.setAttribute("listeSections", listeSections);
+		//test = _db.set(Test.class).selectById(idTest);
+		//request.setAttribute("test",test );
+		
 		if ("edit".equals(request.getParameter("action"))){
 			
 			getServletContext().getRequestDispatcher("/WEB-INF/jsp/form/test/formEditTest.jsp").forward(request, response);

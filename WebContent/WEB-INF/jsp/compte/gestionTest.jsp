@@ -10,7 +10,20 @@
 	var title = "Test";
 </script>
 <section class="content">
-	<div class="">
+	  <c:if test="${not empty success}">
+			<div class="alert alert-success alert-dismissible">
+                <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+                <h4><i class="icon fa fa-check"></i> Success!</h4>
+                ${success}
+              </div>
+		</c:if>
+		<c:if test="${not empty error}">
+			<div class="alert alert-danger alert-dismissible">
+                <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+                <h4><i class="icon fa fa-warning"></i> Erreur!</h4>
+                ${error}
+              </div>
+		</c:if>
 		<button type="button" class="btn btn-info" data-widget="remove"
 			title="Ajouter un Test" onclick="add(event, this);">Ajouter
 			Test</button>
@@ -35,8 +48,8 @@
 						<c:forEach items="${listeTests}" var="test">
 							<tr>
 								<td><a href="#">${test.getNom()}</a></td>
-								<td>${test.listSection.size}</td>
-								<td>${test.listSection.size}</td>
+								<td>${test.listSection.size()}</td>
+								<td>${test.listSection.size()}</td>
 								<td>?</td>
 								<td>${test.getSeuilAcquis()}</td>
 								<td>${test.getSeuilEnCoursAcquis()}</td>
@@ -52,24 +65,16 @@
 				</table>
 			</div>
 		</div>
-		</div>
+
 </section>
 
 <%@include file="../footer.jsp"%>
 <script>
 	$(function() {
-		$("#gestionTest").DataTable();
-		//     $('#example2').DataTable({
-		//       "paging": true,
-		//       "lengthChange": false,
-		//       "searching": false,
-		//       "ordering": true,
-		//       "info": true,
-		//       "autoWidth": false
-		//     });
-// 		$(".js-example-basic-single").select2({
-// 			  placeholder: "Responsable de formation",
-// 			allowClear: true
-// 			});
+		$("#gestionTest").DataTable({
+	    	"language":{
+	    		 "url": "//cdn.datatables.net/plug-ins/9dcbecd42ad/i18n/French.json"
+	    	}
+	    });
 	});
 </script>

@@ -11,9 +11,22 @@
 </script>
 
 <section class="content">
-	<div class="">
+	  <c:if test="${not empty success}">
+			<div class="alert alert-success alert-dismissible">
+                <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+                <h4><i class="icon fa fa-check"></i> Success!</h4>
+                ${success}
+              </div>
+		</c:if>
+		<c:if test="${not empty error}">
+			<div class="alert alert-danger alert-dismissible">
+                <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+                <h4><i class="icon fa fa-warning"></i> Erreur!</h4>
+                ${error}
+              </div>
+		</c:if>
 		<button type="button" class="btn btn-info" data-widget="remove"
-			title="Ajouter Question" onclick="add(event, this);">Ajouter
+			title="Ajouter Question" onclick="add(event, this, BootstrapDialog.SIZE_NORMAL);">Ajouter
 			Question</button>
 		<div class="box">
 			<!-- /.box-header -->
@@ -32,11 +45,12 @@
 
 						<c:forEach items="${listeQuestions}" var="question">
 							<tr>
-								<td><a href="#">${question.getNom()}</a></td>
-								<td>?</td>
+								<td><a href="#">${question.getEnonce()}</a></td>
+								<td>${question.theme.getNom()}</td>
+								<td>${question.getTypeFormat()}</td>
 								<td>
 									<div class="tools">
-										<a onclick="edit(event, this);" data-id="${question.getId()}" ><i class="fa fa-edit fa-2x"></i> </a>
+										<a onclick="edit(event, this, BootstrapDialog.SIZE_NORMAL);" data-id="${question.getId()}" ><i class="fa fa-edit fa-2x"></i> </a>
 										<a onclick="supp(event, this);" data-id="${question.getId()}"><i class="fa fa-trash-o fa-2x"></i></a>
 									</div>
 								</td>
@@ -51,19 +65,11 @@
 <%@include file="../footer.jsp"%>
 <script>
 	$(function() {
-		$("#gestionQuestion").DataTable();
-		//     $('#example2').DataTable({
-		//       "paging": true,
-		//       "lengthChange": false,
-		//       "searching": false,
-		//       "ordering": true,
-		//       "info": true,
-		//       "autoWidth": false
-		//     });
-// 		$(".js-example-basic-single").select2({
-// 			  placeholder: "Responsable de formation",
-// 			allowClear: true
-// 			});
+		$("#gestionQuestions").DataTable({
+	    	"language":{
+	    		 "url": "//cdn.datatables.net/plug-ins/9dcbecd42ad/i18n/French.json"
+	    	}
+	    });
 		
 	});
 </script>
