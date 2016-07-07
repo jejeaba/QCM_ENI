@@ -1,4 +1,4 @@
-function edit(e, dom){
+function edit(e, dom, size = BootstrapDialog.SIZE_SMALL){
 	e.preventDefault();
 	var id = $(dom).data("id");
 	$.ajax({
@@ -8,7 +8,7 @@ function edit(e, dom){
 	}).done(function(view) {
 		var dialog = new BootstrapDialog({
 			title: 'Modifier '+title,
-			size: BootstrapDialog.SIZE_SMALL,
+			size: size,
 	        message: view,
 	        nl2br: false
 	    });
@@ -18,7 +18,7 @@ function edit(e, dom){
 	});
 	 
 }
-function add(e, dom){
+function add(e, dom, size = BootstrapDialog.SIZE_SMALL){
 	e.preventDefault();
 	$.ajax({
 	  url: "/"+window.location.pathname.split("/")[1]+"/admin/view"+title,
@@ -27,7 +27,7 @@ function add(e, dom){
 	}).done(function(view) {
 		var dialog = new BootstrapDialog({
 			title: 'Ajouter '+title,
-			size: BootstrapDialog.SIZE_SMALL,
+			size: size,
 	        message: view,
 	        nl2br: false
 	    });

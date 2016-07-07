@@ -3,12 +3,15 @@
  */
 package fr.eni.bo;
 
+import fr.eni.annotations.PrimaryKey;
+
 /**
  * @author Administrateur
  * @date 4 juil. 2016
  * @version QCM - V1.0
  */
 public class Reponse {
+	@PrimaryKey
 	private int id;
 	private String libelle;
 	private boolean correct;

@@ -13,7 +13,7 @@
 <section class="content">
 	<div class="">
 		<button type="button" class="btn btn-info" data-widget="remove"
-			title="Ajouter Question" onclick="add(event, this);">Ajouter
+			title="Ajouter Question" onclick="add(event, this, BootstrapDialog.SIZE_NORMAL);">Ajouter
 			Question</button>
 		<div class="box">
 			<!-- /.box-header -->
@@ -32,11 +32,12 @@
 
 						<c:forEach items="${listeQuestions}" var="question">
 							<tr>
-								<td><a href="#">${question.getNom()}</a></td>
-								<td>?</td>
+								<td><a href="#">${question.getEnonce()}</a></td>
+								<td>${question.theme.getNom()}</td>
+								<td>${question.getTypeFormat()}</td>
 								<td>
 									<div class="tools">
-										<a onclick="edit(event, this);" data-id="${question.getId()}" ><i class="fa fa-edit fa-2x"></i> </a>
+										<a onclick="edit(event, this, BootstrapDialog.SIZE_NORMAL);" data-id="${question.getId()}" ><i class="fa fa-edit fa-2x"></i> </a>
 										<a onclick="supp(event, this);" data-id="${question.getId()}"><i class="fa fa-trash-o fa-2x"></i></a>
 									</div>
 								</td>
@@ -51,7 +52,7 @@
 <%@include file="../footer.jsp"%>
 <script>
 	$(function() {
-		$("#gestionQuestion").DataTable();
+		$("#gestionQuestions").DataTable();
 		//     $('#example2').DataTable({
 		//       "paging": true,
 		//       "lengthChange": false,

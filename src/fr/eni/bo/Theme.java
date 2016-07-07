@@ -32,9 +32,7 @@ public class Theme {
 	 * @param nom
 	 * @param listQuestion
 	 */
-	public Theme(int id, String nom, List<Question> listQuestion) {
-		this.id = id;
-		this.nom = nom;
+	public Theme(int id, String nom, List<Question> listQuestion){
 		this.listQuestion = listQuestion;
 	}
 	/**

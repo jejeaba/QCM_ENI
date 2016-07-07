@@ -55,7 +55,7 @@ public class Question {
 	 * @param id
 	 */
 	public Question(int id){
-		
+		this.id = id;
 	}
 	public void addReponse(Reponse reponse){
 		listReponse.add(reponse);
@@ -136,6 +136,14 @@ public class Question {
 	 */
 	public boolean getType() {
 		return type;
+	}
+	
+	public String getTypeFormat(){
+		if(this.type){
+			return "Multiple";
+		}else{
+			return "Unique";
+		}
 	}
 
 	/**
