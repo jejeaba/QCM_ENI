@@ -156,6 +156,16 @@
   <servlet-mapping>
     <servlet-name>gestionSection</servlet-name>
     <url-pattern>/admin/gestionSection</url-pattern>
+   </servlet-mapping>
+   <servlet>
+    <description></description>
+    <display-name>deconnection</display-name>
+    <servlet-name>deconnection</servlet-name>
+    <servlet-class>fr.eni.servlets.deconnection</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>deconnection</servlet-name>
+    <url-pattern>/admin/deconnection</url-pattern>
   </servlet-mapping>
   <filter>
     <display-name>AdminFiltre</display-name>
@@ -170,4 +180,5 @@
   	<error-code>404</error-code>
   	<location>/404.jsp</location>
   </error-page>
+
 </web-app>
