@@ -15,6 +15,7 @@ import javax.servlet.http.HttpServletResponse;
 import fr.eni.bo.Theme;
 import fr.eni.dal.DBAcces;
 import fr.eni.utils.DynamicEntities;
+import fr.eni.utils.GestionErreur;
 
 /**
  * Servlet implementation class viewEditFormation
@@ -34,25 +35,44 @@ public class viewTheme extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		// TODO Auto-generated method stub
-		response.getWriter().append("Served at: ").append(request.getContextPath());
+		try {
+			processRequest(request, response);
+		} catch (Exception e) {
+			e.printStackTrace();
+			GestionErreur.redirectionErreur(e, request, response);
+			return;
+		}
 	}
 
 	/**
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		try {
+			processRequest(request, response);
+		} catch (Exception e) {
+			e.printStackTrace();
+			GestionErreur.redirectionErreur(e, request, response);
+			return;
+		}
+		
+	}
+
+	/**
+	 * Methode en charge de .
+	 * @param request
+	 * @param response
+	 * @throws Exception 
+	 */
+	private void processRequest(HttpServletRequest request, HttpServletResponse response) throws Exception {
 		int idTheme = Integer.parseInt(request.getParameter("id"));
 		DynamicEntities _db = new DynamicEntities();
 		
 		Theme theme;
-		try {
-			theme = _db.set(Theme.class).selectById(idTheme);
-			request.setAttribute("theme",theme );
-		} catch (Exception e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+		
+		theme = _db.set(Theme.class).selectById(idTheme);
+		request.setAttribute("theme",theme );
+		
 		if ("edit".equals(request.getParameter("action"))){
 			
 			getServletContext().getRequestDispatcher("/WEB-INF/jsp/form/theme/formEditTheme.jsp").forward(request, response);
@@ -66,5 +86,6 @@ public class viewTheme extends HttpServlet {
 			getServletContext().getRequestDispatcher("/WEB-INF/jsp/form/theme/formAddTheme.jsp").forward(request, response);
 			return; 	
 		}
+		
 	}
 }

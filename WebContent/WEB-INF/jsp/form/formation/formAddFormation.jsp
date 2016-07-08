@@ -14,6 +14,6 @@
       </c:forEach>
       </select>
     </div>
-    <input type="submit" name="addFormation" value="Ajouter">
+    <input type="submit" class="btn btn-success btn-block" name="addFormation" value="Ajouter">
   </form>
 </div>

@@ -8,6 +8,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -20,6 +21,7 @@ import fr.eni.bo.Formation;
 import fr.eni.bo.Utilisateur;
 import fr.eni.dal.DBAcces;
 import fr.eni.utils.DynamicEntities;
+import fr.eni.utils.GestionErreur;
 import fr.eni.utils.ReflexionUtils;
 
 /**
@@ -43,8 +45,9 @@ public class gestionFormation extends HttpServlet {
 		try {
 			processRequest(request, response);
 		} catch (Exception e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
+			GestionErreur.redirectionErreur(e, request, response);
+			return;
 		}
 	}
 
@@ -55,8 +58,9 @@ public class gestionFormation extends HttpServlet {
 		try {
 			processRequest(request, response);
 		} catch (Exception e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
+			GestionErreur.redirectionErreur(e, request, response);
+			return;
 		}
 	}
 
@@ -71,57 +75,20 @@ public class gestionFormation extends HttpServlet {
 		DynamicEntities _db = new DynamicEntities();
 		Formateur formateur;
 		Formation formation;
+		String success=null;
+		String error=null;
 		if("Ajouter".equals(request.getParameter("addFormation"))){
 			int formateurId = Integer.parseInt(request.getParameter("formateur"));
-			try {
-				Utilisateur utilisateur = _db.set(Utilisateur.class).selectById(formateurId);
-				
-				formation = new Formation(0,request.getParameter("nomFormation"),(Formateur) utilisateur);
-			} catch (NumberFormatException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			} catch (Exception e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-	
+			Utilisateur utilisateur = _db.set(Utilisateur.class).selectById(formateurId);
+			
+			formation = new Formation(0,request.getParameter("nomFormation"),(Formateur) utilisateur);
 		}
-		PreparedStatement cmd = null;
-		List<Formation> listeFormations = new ArrayList<Formation>();
-//		String query = "  SELECT * FROM getAllFormationWithResponsable";
-//		try {
-//			cmd = DBAcces.getConnection().prepareStatement(query);
-//			//cmd.setInt(1, 1);
-//			//List<Object> returnData = new ArrayList<Object>();
-//			ResultSet rs = cmd.executeQuery();
-//			while (rs.next()) {
-//				formateur = new Formateur(
-//						rs.getInt("FORMATEUR_id"),
-//						rs.getString("formateur_nom"),
-//						rs.getString("formateur_prenom"),
-//						rs.getString("formateur_email"),
-//						rs.getString("formateur_motdepasse")
-//						);
-//				formation = new Formation(
-//						rs.getInt("id"),
-//						rs.getString("nom"),
-//						formateur);
-//				listeFormations.add(formation);
-//			}
-//		} catch (SQLException e) {
-//			throw new Exception(e.getMessage());
-//		} finally {
-//			cmd.getConnection().close();
-//			cmd = null;
-//		}		
+		List<Formation> listeFormations = new ArrayList<Formation>();	
+		listeFormations = _db.set(Formation.class).selectAll();
+		request.setAttribute("listeFormations",listeFormations );
+		request.setAttribute("success", success);
+		request.setAttribute("error", error);
 		
-		try {
-			listeFormations = _db.set(Formation.class).selectAll();
-			request.setAttribute("listeFormations",listeFormations );
-		} catch (Exception e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
 		getServletContext().getRequestDispatcher("/WEB-INF/jsp/compte/gestionFormation.jsp").forward(request, response);
 		
 	}

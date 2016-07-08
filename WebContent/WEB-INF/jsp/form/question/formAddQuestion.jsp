@@ -32,7 +32,7 @@
 				</c:forEach>
 			</select>
 		</div>
-		<input type="submit" name="addQuestion" value="Ajouter">
+		<input type="submit" class="btn btn-success btn-block" name="addQuestion" value="Ajouter">
 	</form>
 </div>
 

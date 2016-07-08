@@ -7,7 +7,7 @@
 			<input type="text" class="form-control" value="${question.enonce}" name="nomQuestion" placeholder="Enonce" required="required">
 		</div>
 		
-		<c:forEach var="i" begin="1" end="4">
+		<c:forEach var="i" begin="0" end="3">
    			<div class="row">
 			<div class="form-group col-xs-9">
 				<input type="text" class="form-control" name="reponses" value="<c:out value="${question.listReponse[i].libelle}"/>" placeholder="Réponse"/>
@@ -41,7 +41,7 @@
 				</c:forEach>
 			</select>
 		</div>
-		<input type="submit" name="addQuestion" value="Editer">
+		<input type="submit" class="btn btn-success btn-block" name="addQuestion" value="Editer">
 	</form>
 </div>
 

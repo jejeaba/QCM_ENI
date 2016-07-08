@@ -20,7 +20,7 @@
     <div class="form-group">
       <input type="number" class="form-control" name="seuilEnCoursAcquis" placeholder="Seuil en cours d'acquisition" required="required">
     </div>
-    <input type="submit" name="addTest" value="Ajouter">
+    <input type="submit" class="btn btn-success btn-block" name="addTest" value="Ajouter">
   </form>
 </div>
  <script src="<%= request.getContextPath() %>/plugins/select2/select2.min.js"></script>

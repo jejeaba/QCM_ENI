@@ -89,13 +89,39 @@ public class DynamicEntities2 {
 		}	
 	}
 	
-	private <T> PreparedStatement prepareForSelect(PreparedStatement ps, Parameter...args) throws Exception{
-		int i = 1;
-		for (Parameter arg : args) {
-			ps.setObject(1, arg.getValue());
-			i++;
+	public <T> T insertBeta(T object){
+		Class classe = object.getClass();
+		Field[] fields = classe.getDeclaredFields();
+		try {
+			for (Field field : fields) {
+				field.setAccessible(true);
+				if(field.isAnnotationPresent(PrimaryKey.class)){
+					
+				}else if(field.isAnnotationPresent(ManyToOne.class)){
+					Object value = field.get(object);
+					Object primaryKeyValue = ReflexionUtils.getPrimary(value);
+					if(ReflexionUtils.isEmptyOrNull(primaryKeyValue)){
+						insert(value);
+					}
+				}else if(field.isAnnotationPresent(OneToMany.class)){	
+					List<Object> datas = (List<Object>) field.get(object);
+					for (Object data : datas) {
+						Object primaryKeyValue = ReflexionUtils.getPrimary(data);
+						if(ReflexionUtils.isEmptyOrNull(primaryKeyValue)){
+							int i = 0;
+						}else{
+							int i = 0;
+						}
+					}
+				}else{
+					
+				}
+			}
+			return object;
+		} catch (Exception e) {
+			//LOGGER.info(String.format("Impossible d'effectuer une requête SELECT sur l'entitée %1s. Erreur : %2s.", this.entity, e.getMessage()));
+			return null;
 		}
-		return ps;
 	}
 	
 	public <T> T insert(T object){
@@ -168,6 +194,15 @@ public class DynamicEntities2 {
 			}
 			cmd = null;
 		}	
+	}
+	
+	private <T> PreparedStatement prepareForSelect(PreparedStatement ps, Parameter...args) throws Exception{
+		int i = 1;
+		for (Parameter arg : args) {
+			ps.setObject(1, arg.getValue());
+			i++;
+		}
+		return ps;
 	}
 	
 	private <T> T injectPrimaryKey(ResultSet rs, T object) throws Exception{

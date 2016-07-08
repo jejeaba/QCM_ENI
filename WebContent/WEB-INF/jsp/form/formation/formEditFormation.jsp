@@ -21,6 +21,6 @@
       </c:forEach>
       </select>
     </div>
-	<input class="btn btn-default" type="submit" name="addFormation" value="Modifier">
+	<input class="btn btn-success btn-block" type="submit" name="addFormation" value="Modifier">
   </form>
 </div>

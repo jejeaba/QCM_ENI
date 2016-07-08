@@ -11,6 +11,7 @@ import javax.servlet.http.HttpServletResponse;
 import fr.eni.bo.Formateur;
 import fr.eni.bo.Formation;
 import fr.eni.bo.Question;
+import fr.eni.bo.Reponse;
 import fr.eni.bo.Theme;
 import fr.eni.utils.DynamicEntities;
 import fr.eni.utils.DynamicEntities2;
@@ -35,25 +36,16 @@ public class Test extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		
 		DynamicEntities2 _db = new DynamicEntities2();
-		Question question = _db.set(Question.class).selectById(3);
-		//_db.insert(questions.get(0));
-		int i = 0;
-		/*
-		DynamicEntities _db = new DynamicEntities(Theme.class);
-		try {
-			Theme theme = _db.selectById(1);
-			theme.setNom("JEREMYYYYYY!");
-			boolean updated = _db.update(theme);
-			//_db.delete(question);
-			System.out.println("OK");
-		} catch (Exception e) {
-			// TODO Auto-generated catch block
-			System.out.println(e.getMessage());
-			e.printStackTrace();
-		}
-		*/
+		Theme theme = _db.set(Theme.class).selectById(1);
+		Question question = new Question();
+		question.setTheme(theme);
+		Reponse reponse = new Reponse();
+		reponse.setCorrect(true);
+		reponse.setLibelle("Test réponse");
+		question.addReponse(reponse);
+		question.setEnonce("Test question");
+		_db.set(Question.class).insertBeta(question);
 	}
 
 	/**

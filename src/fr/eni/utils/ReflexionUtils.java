@@ -32,6 +32,13 @@ public class ReflexionUtils {
 		return classe.getConstructor(null).newInstance(null);	
 	}
 	
+	public static boolean isEmptyOrNull(Object object){
+		if(Integer.class.isInstance(object)){
+			return ((int)object) == 0;
+		}
+		return object == null || object == "";
+	}
+	
 	public static Field getPrimaryKey(Object obj){
 		Field[] fields = getFields(obj);
 		for (Field field : fields) {
